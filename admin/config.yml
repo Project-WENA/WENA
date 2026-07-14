@@ -1,7 +1,6 @@
 backend:
   name: git-gateway
   branch: main
-  base_url: https://lively-bonbon-d572e5.netlify.app
 
 media_folder: "content/blog/images"
 public_folder: "/content/blog/images"
