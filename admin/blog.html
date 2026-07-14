@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — WENA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --pink:#d81159; --pink-dark:#b30d4a; --maroon:#5c1029; --maroon-dark:#3a0a1a;
+  --bg-light:#fdf1f4; --bg-pale:#fbe3ea; --text-dark:#1c1c1e; --text-gray:#5c5c63; --white:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;color:var(--text-dark);background:var(--bg-light);}
+h1,h2,h3,h4{font-family:'Poppins',sans-serif;}
+a{text-decoration:none;color:inherit;}
+.container{max-width:1200px;margin:0 auto;padding:0 60px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 26px;border-radius:30px;font-weight:600;font-size:14px;transition:all .3s;}
+.btn-primary{background:var(--pink);color:#fff;}
+.btn-primary:hover{background:var(--pink-dark);transform:translateY(-2px);}
+.btn-outline{background:transparent;border:1.5px solid var(--pink);color:var(--pink);}
+.btn-outline:hover{background:var(--pink);color:#fff;}
+
+header{background:var(--maroon-dark);padding:16px 0;}
+header .container{display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:12px;color:#fff;}
+.logo .mark img{height:42px;width:auto;object-fit:contain;}
+.logo-text{line-height:1.2;}
+.logo-text .top{font-weight:700;font-size:14px;letter-spacing:1px;}
+.logo-text .bottom{font-size:11px;opacity:.85;}
+nav a{color:#fff;font-size:14px;opacity:.9;margin-left:26px;}
+nav a:hover{opacity:1;}
+
+.page-head{padding:70px 0 40px;text-align:center;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--bg-pale);color:var(--pink);font-size:13px;font-weight:700;padding:8px 18px;border-radius:20px;margin-bottom:16px;}
+.page-head h1{font-size:42px;font-weight:800;margin-bottom:12px;}
+.page-head p{color:var(--text-gray);font-size:16px;}
+
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding:0 0 90px;}
+.blog-card{background:#fff;border-radius:16px;overflow:hidden;transition:all .35s ease;box-shadow:0 6px 18px rgba(92,16,41,0.06);}
+.blog-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(92,16,41,0.14);}
+.blog-card .img-wrap{height:190px;background:linear-gradient(135deg,var(--bg-pale),#f6c9d6);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.blog-card .img-wrap img{width:100%;height:100%;object-fit:cover;}
+.blog-card .img-wrap i{font-size:32px;color:var(--pink);opacity:.5;}
+.blog-body{padding:22px;}
+.blog-date{font-size:12px;color:var(--pink);font-weight:700;margin-bottom:8px;}
+.blog-body h3{font-size:18px;font-weight:700;line-height:1.4;margin-bottom:10px;}
+.blog-body p{font-size:13.5px;color:var(--text-gray);line-height:1.6;margin-bottom:16px;}
+.blog-read{color:var(--pink);font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px;}
+
+.state-msg{text-align:center;padding:60px 0;color:var(--text-gray);}
+.state-msg i{font-size:30px;color:var(--pink);margin-bottom:14px;display:block;}
+
+footer{background:var(--maroon-dark);color:#fff;padding:34px 0;text-align:center;font-size:13px;opacity:.8;}
+
+@media(max-width:1000px){.blog-grid{grid-template-columns:repeat(2,1fr);} .container{padding:0 24px;}}
+@media(max-width:640px){.blog-grid{grid-template-columns:1fr;} .page-head h1{font-size:30px;} nav{display:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <a href="index.html" class="logo">
+      <div class="mark"><img src="wena logo.png" alt="wena logo"></div>
+      <div class="logo-text">
+        <div class="top">Women Enabling</div>
+        <div class="bottom">New Ambitions</div>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="page-head container">
+  <span class="eyebrow"><i class="fa-solid fa-newspaper"></i> WENA BLOG</span>
+  <h1>Financial Tips & <span style="color:var(--pink)">Stories</span></h1>
+  <p>Practical financial knowledge, straight from the WENA team.</p>
+</section>
+
+<div class="container">
+  <div class="blog-grid" id="blogGrid">
+    <div class="state-msg" style="grid-column:1/-1;"><i class="fa-solid fa-spinner fa-spin"></i>Loading articles…</div>
+  </div>
+</div>
+
+<footer>© 2026 Women Enabling New Ambitions (WENA) | All rights reserved.</footer>
+
+<script>
+// ============================================================
+// ONLY THESE TWO LINES NEED TO CHANGE — your GitHub username/repo
+// ============================================================
+const GH_OWNER = "REPLACE_ME";
+const GH_REPO  = "REPLACE_ME";
+const GH_BRANCH = "main";
+// ============================================================
+
+const API_URL = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/content/blog?ref=${GH_BRANCH}`;
+
+function parseFrontmatter(raw){
+  const match = raw.match(/^---\s*([\s\S]*?)\s*---\s*([\s\S]*)$/);
+  if(!match) return { meta:{}, body: raw };
+  const meta = {};
+  match[1].split('\n').forEach(line=>{
+    const idx = line.indexOf(':');
+    if(idx === -1) return;
+    let key = line.slice(0, idx).trim();
+    let val = line.slice(idx+1).trim().replace(/^["']|["']$/g,'');
+    meta[key] = val;
+  });
+  return { meta, body: match[2].trim() };
+}
+
+async function loadArticles(){
+  const grid = document.getElementById('blogGrid');
+  try{
+    const listRes = await fetch(API_URL);
+    if(!listRes.ok) throw new Error('Could not load article list');
+    const files = await listRes.json();
+    const mdFiles = files.filter(f => f.name.endsWith('.md'));
+
+    if(mdFiles.length === 0){
+      grid.innerHTML = `<div class="state-msg" style="grid-column:1/-1;"><i class="fa-regular fa-face-smile"></i>No articles yet — check back soon!</div>`;
+      return;
+    }
+
+    const articles = await Promise.all(mdFiles.map(async f=>{
+      const res = await fetch(f.download_url);
+      const raw = await res.text();
+      const { meta } = parseFrontmatter(raw);
+      const slug = f.name.replace(/\.md$/, '');
+      return { ...meta, slug };
+    }));
+
+    articles.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    grid.innerHTML = articles.map(a => `
+      <a href="article.html?slug=${encodeURIComponent(a.slug)}" class="blog-card">
+        <div class="img-wrap">
+          ${a.image ? `<img src="${a.image}" alt="${a.title || ''}">` : `<i class="fa-solid fa-book-open"></i>`}
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">${a.date ? new Date(a.date).toLocaleDateString('en-IN', {day:'numeric', month:'long', year:'numeric'}) : ''}</div>
+          <h3>${a.title || 'Untitled'}</h3>
+          <p>${a.summary || ''}</p>
+          <span class="blog-read">Read Article <i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+      </a>
+    `).join('');
+
+  }catch(err){
+    grid.innerHTML = `<div class="state-msg" style="grid-column:1/-1;"><i class="fa-solid fa-triangle-exclamation"></i>Couldn't load articles right now. Please refresh the page.</div>`;
+    console.error(err);
+  }
+}
+loadArticles();
+</script>
+</body>
+</html>

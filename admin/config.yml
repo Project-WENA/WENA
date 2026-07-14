@@ -1,0 +1,31 @@
+# ============================================================
+# WENA — Decap CMS Configuration
+# ============================================================
+# ONLY TWO LINES NEED TO CHANGE BEFORE THIS GOES LIVE — search
+# for "REPLACE_ME" below. Everything else is ready to use.
+# ============================================================
+
+backend:
+  name: github
+  repo: REPLACE_ME/REPLACE_ME     # e.g. "nituwena/wena-website" (owner/repo-name)
+  branch: main                    # change if your default branch is called something else
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+# Where the admin panel saves uploaded images
+media_folder: "assets/blog-images"
+public_folder: "/assets/blog-images"
+
+collections:
+  - name: "blog"
+    label: "Blog Articles"
+    label_singular: "Article"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Cover Image", name: "image", widget: "image", required: false }
+      - { label: "Short Summary", name: "summary", widget: "text", hint: "1-2 lines shown on the blog listing page" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Article Content", name: "body", widget: "markdown" }

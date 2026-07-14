@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Article — WENA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+:root{
+  --pink:#d81159; --pink-dark:#b30d4a; --maroon:#5c1029; --maroon-dark:#3a0a1a;
+  --bg-light:#fdf1f4; --bg-pale:#fbe3ea; --text-dark:#1c1c1e; --text-gray:#5c5c63;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;color:var(--text-dark);background:#fff;}
+h1,h2,h3,h4{font-family:'Poppins',sans-serif;}
+a{text-decoration:none;color:inherit;}
+.container{max-width:800px;margin:0 auto;padding:0 24px;}
+
+header{background:var(--maroon-dark);padding:16px 0;}
+header .container{max-width:1200px;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:12px;color:#fff;}
+.logo .mark img{height:42px;width:auto;object-fit:contain;}
+.logo-text{line-height:1.2;}
+.logo-text .top{font-weight:700;font-size:14px;letter-spacing:1px;}
+.logo-text .bottom{font-size:11px;opacity:.85;}
+nav a{color:#fff;font-size:14px;opacity:.9;margin-left:26px;}
+nav a:hover{opacity:1;}
+
+.back-link{display:inline-flex;align-items:center;gap:8px;color:var(--pink);font-weight:600;font-size:14px;margin:34px 0 20px;}
+
+.art-head{margin-bottom:26px;}
+.art-date{font-size:13px;color:var(--pink);font-weight:700;margin-bottom:10px;}
+.art-head h1{font-size:36px;font-weight:800;line-height:1.25;}
+.art-cover{width:100%;border-radius:16px;overflow:hidden;margin-bottom:30px;}
+.art-cover img{width:100%;display:block;}
+
+.art-body{font-size:16.5px;line-height:1.85;color:#2a2a2c;padding-bottom:50px;}
+.art-body h2{font-size:24px;margin:32px 0 14px;font-weight:700;}
+.art-body h3{font-size:20px;margin:26px 0 12px;font-weight:700;}
+.art-body p{margin-bottom:18px;}
+.art-body ul,.art-body ol{margin:0 0 18px 22px;}
+.art-body a{color:var(--pink);text-decoration:underline;}
+.art-body img{max-width:100%;border-radius:10px;margin:16px 0;}
+.art-body blockquote{border-left:3px solid var(--pink);padding-left:18px;color:var(--text-gray);font-style:italic;margin:20px 0;}
+
+.comments-section{border-top:1px solid var(--bg-pale);padding-top:36px;padding-bottom:70px;}
+.comments-section h3{font-size:20px;margin-bottom:18px;}
+
+.state-msg{text-align:center;padding:60px 0;color:var(--text-gray);}
+.state-msg i{font-size:30px;color:var(--pink);margin-bottom:14px;display:block;}
+
+footer{background:var(--maroon-dark);color:#fff;padding:34px 0;text-align:center;font-size:13px;opacity:.8;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <a href="index.html" class="logo">
+      <div class="mark"><img src="wena logo.png" alt="wena logo"></div>
+      <div class="logo-text">
+        <div class="top">Women Enabling</div>
+        <div class="bottom">New Ambitions</div>
+      </div>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <a href="blog.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Blog</a>
+  <div id="articleWrap">
+    <div class="state-msg"><i class="fa-solid fa-spinner fa-spin"></i>Loading article…</div>
+  </div>
+</div>
+
+<footer>© 2026 Women Enabling New Ambitions (WENA) | All rights reserved.</footer>
+
+<script>
+// ============================================================
+// ONLY THESE LINES NEED TO CHANGE
+// ============================================================
+const GH_OWNER = "REPLACE_ME";
+const GH_REPO  = "REPLACE_ME";
+const GH_BRANCH = "main";
+const DISQUS_SHORTNAME = "REPLACE_ME_DISQUS_SHORTNAME"; // from disqus.com dashboard
+// ============================================================
+
+function parseFrontmatter(raw){
+  const match = raw.match(/^---\s*([\s\S]*?)\s*---\s*([\s\S]*)$/);
+  if(!match) return { meta:{}, body: raw };
+  const meta = {};
+  match[1].split('\n').forEach(line=>{
+    const idx = line.indexOf(':');
+    if(idx === -1) return;
+    let key = line.slice(0, idx).trim();
+    let val = line.slice(idx+1).trim().replace(/^["']|["']$/g,'');
+    meta[key] = val;
+  });
+  return { meta, body: match[2].trim() };
+}
+
+function getSlugFromUrl(){
+  const params = new URLSearchParams(window.location.search);
+  return params.get('slug');
+}
+
+function loadDisqus(slug, title){
+  window.disqus_config = function () {
+    this.page.url = window.location.href;
+    this.page.identifier = slug;
+    this.page.title = title;
+  };
+  const d = document.createElement('script');
+  d.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
+  d.setAttribute('data-timestamp', +new Date());
+  document.body.appendChild(d);
+}
+
+async function loadArticle(){
+  const wrap = document.getElementById('articleWrap');
+  const slug = getSlugFromUrl();
+  if(!slug){
+    wrap.innerHTML = `<div class="state-msg"><i class="fa-solid fa-triangle-exclamation"></i>No article specified.</div>`;
+    return;
+  }
+
+  try{
+    const rawUrl = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/content/blog/${slug}.md`;
+    const res = await fetch(rawUrl);
+    if(!res.ok) throw new Error('Article not found');
+    const raw = await res.text();
+    const { meta, body } = parseFrontmatter(raw);
+
+    document.getElementById('pageTitle').textContent = `${meta.title || 'Article'} — WENA`;
+
+    wrap.innerHTML = `
+      <div class="art-head">
+        <div class="art-date">${meta.date ? new Date(meta.date).toLocaleDateString('en-IN', {day:'numeric', month:'long', year:'numeric'}) : ''}</div>
+        <h1>${meta.title || 'Untitled'}</h1>
+      </div>
+      ${meta.image ? `<div class="art-cover"><img src="${meta.image}" alt="${meta.title || ''}"></div>` : ''}
+      <div class="art-body">${marked.parse(body)}</div>
+      <div class="comments-section">
+        <h3>Comments</h3>
+        <div id="disqus_thread"></div>
+      </div>
+    `;
+
+    loadDisqus(slug, meta.title || 'WENA Article');
+
+  }catch(err){
+    wrap.innerHTML = `<div class="state-msg"><i class="fa-solid fa-triangle-exclamation"></i>This article couldn't be found.</div>`;
+    console.error(err);
+  }
+}
+loadArticle();
+</script>
+</body>
+</html>
