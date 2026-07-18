@@ -229,15 +229,6 @@ section{padding:100px 0;position:relative;}
 .cl-meta .dot{color:var(--text-gray);font-weight:400;}
 .cl-body h4{font-size:16px;font-weight:700;margin-bottom:16px;line-height:1.4;}
 
-.store{background:var(--bg-light);}
-.store-title{text-align:center;margin-bottom:44px;}
-.store-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
-.store-card{background:#fff;border-radius:16px;padding:20px;text-align:center;transition:all var(--transition);}
-.store-card:hover{transform:translateY(-8px);box-shadow:0 20px 44px rgba(92,16,41,0.14);}
-.store-card img{height:170px;width:100%;object-fit:contain;margin-bottom:16px;}
-.store-card h4{font-size:15.5px;font-weight:700;margin-bottom:8px;}
-.store-card p{font-size:13px;color:var(--text-gray);margin-bottom:16px;line-height:1.5;}
-
 .founder{background:#fff;}
 .founder-wrap{display:grid;grid-template-columns:0.9fr 1.1fr;gap:70px;align-items:center;}
 .founder-img{position:relative;border-radius:60px 60px 60px 200px;overflow:hidden;box-shadow:0 30px 60px rgba(92,16,41,0.18);}
@@ -307,7 +298,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
 .to-top:hover{background:var(--pink-dark);transform:translateY(-4px);}
 
 @media(max-width:1100px){
-  .who-grid, .test-grid, .store-grid, .learn-grid, .cl-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .who-grid, .test-grid, .learn-grid, .cl-grid{grid-template-columns:repeat(2,1fr)!important;}
   .mission-wrap, .corp-wrap, .founder-wrap, .contact-wrap{grid-template-columns:1fr!important;}
   .process-flow{flex-wrap:wrap;gap:30px;}
   .process-flow:before{display:none;}
@@ -323,7 +314,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
   .stat:nth-child(2n):after{display:none;}
   section{padding:60px 0;}
   .section-title{font-size:28px;}
-  .who-grid, .test-grid, .store-grid, .learn-grid, .cl-grid{grid-template-columns:1fr!important;}
+  .who-grid, .test-grid, .learn-grid, .cl-grid{grid-template-columns:1fr!important;}
   .serve-card{flex-direction:column;align-items:flex-start;}
   .serve-card img{width:100%;height:150px;}
   .corp-checks{grid-template-columns:1fr;}
@@ -354,7 +345,6 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
         <li><a href="#learn">Workshops</a></li>
         <li><a href="#resources">Resources</a></li>
         <li><a href="blog.html">Blog</a></li>
-        <li><a href="#store">WENA Store</a></li>
         <li><a href="#contact">Contact Us</a></li>
       </ul>
     </nav>
@@ -548,16 +538,6 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
   </div>
 </section>
 
-<section class="store" id="store">
-  <div class="container">
-    <div class="store-title reveal">
-      <span class="eyebrow"><i class="fa-solid fa-bag-shopping"></i> WENA Store</span>
-      <h2 class="section-title">Recommended <span>Resources</span></h2>
-    </div>
-    <div class="store-grid" id="storeGrid"></div>
-  </div>
-</section>
-
 <section class="founder">
   <div class="container founder-wrap">
     <div class="founder-img reveal">
@@ -717,18 +697,79 @@ const testData = [
    text:"WENA helped me separate my business and personal finances. I now track cash flow, plan taxes and invest profits wisely. My business and confidence—both have grown!"}
 ];
 
-const clData = [
-  {type:"Video", meta:"10 min read", title:"What Every Indian Woman Should Know About Her First Salary", img:"assets/cl_first_salary.jpg", cta:"Watch Now"},
-  {type:"Video", meta:"Mutual Funds Explained Simply", title:"Mutual Funds Explained Simply", img:"assets/cl_mutual_funds.jpg", cta:"Watch Now"},
-  {type:"Article", meta:"6 min read", title:"How to Start Investing with ₹10,000", img:"assets/cl_invest_10k.jpg", cta:"Read Article"}
-];
+// Center card is reserved for the upcoming paid course — kept as a fixed, non-CMS-driven entry for now.
+const clCenterData = {type:"Article", meta:"6 min read", title:"How to Start Investing with ₹10,000", img:"assets/cl_invest_10k.jpg", cta:"Read Article", link:"#"};
 
-const storeData = [
-  {title:"Personal Finance Books", desc:"Handpicked books to help you build strong financial habits and make informed money decisions.", img:"assets/store_books.jpg"},
-  {title:"Investment Workbook", desc:"A practical workbook to help you understand investments and track your financial growth.", img:"assets/store_workbook.jpg"},
-  {title:"Budget Planner", desc:"Plan your income, expenses and savings effectively with our easy-to-use planner.", img:"assets/store_planner.jpg"},
-  {title:"Financial Toolkit", desc:"Essential templates, checklists and calculators for your financial journey.", img:"assets/store_toolkit.jpg"}
-];
+// Extracts an 11-char YouTube video ID from any common YouTube URL format.
+function extractYouTubeId(url){
+  if(!url) return null;
+  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+// Given a YouTube URL, builds a cl-card data object using the video's real title/thumbnail/link.
+// Title + channel name come from YouTube's public oEmbed endpoint; thumbnail comes straight from
+// YouTube's image CDN (no API key needed for either). Falls back gracefully if the fetch fails.
+async function buildYouTubeCardData(youtubeUrl){
+  const videoId = extractYouTubeId(youtubeUrl);
+  if(!videoId) return null;
+  const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
+  const thumb = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+  let title = "Watch Video";
+  let author = "";
+  try{
+    const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(watchUrl)}&format=json`);
+    if(res.ok){
+      const data = await res.json();
+      title = data.title || title;
+      author = data.author_name || "";
+    }
+  }catch(e){ /* keep fallback title if oEmbed is unreachable */ }
+  return {type:"Video", meta:author, title, img:thumb, cta:"Watch Now", link:watchUrl};
+}
+
+function renderClCard(clGrid, c){
+  const card = document.createElement('div');
+  card.className = 'cl-card reveal';
+  card.innerHTML = `
+    <div class="cl-img">
+      <img src="${c.img}" alt="${c.title}">
+      ${c.type==='Video' ? '<div class="cl-play"><span><i class="fa-solid fa-play"></i></span></div>' : ''}
+    </div>
+    <div class="cl-body">
+      <div class="cl-meta"><i class="fa-solid ${c.type==='Video'?'fa-circle-play':'fa-file-lines'}"></i> ${c.type}${c.meta ? ` <span class="dot">•</span> ${c.meta}` : ''}</div>
+      <h4>${c.title}</h4>
+      <a href="${c.link}" ${c.link && c.link!=='#' ? 'target="_blank" rel="noopener"' : ''} class="btn btn-outline" style="padding:10px 20px;font-size:13px;">${c.cta} <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  `;
+  clGrid.appendChild(card);
+  if(window.clObserver) window.clObserver.observe(card);
+}
+
+// Reads content/continue-learning.json for the left/right YouTube links (this file will be
+// what the CMS admin panel writes to once it's wired up), builds their card data, and renders
+// all three cards in order: left (video) — center (fixed) — right (video).
+async function renderContinueLearning(){
+  const clGrid = document.getElementById('clGrid');
+  if(!clGrid) return;
+  clGrid.innerHTML = '';
+  let leftUrl = null, rightUrl = null;
+  try{
+    const res = await fetch('content/continue-learning.json');
+    if(res.ok){
+      const json = await res.json();
+      leftUrl = json.left && json.left.youtube_url;
+      rightUrl = json.right && json.right.youtube_url;
+    }
+  }catch(e){ /* no CMS data yet — left/right simply won't render until it exists */ }
+
+  const [leftData, rightData] = await Promise.all([
+    buildYouTubeCardData(leftUrl),
+    buildYouTubeCardData(rightUrl)
+  ]);
+
+  [leftData, clCenterData, rightData].filter(Boolean).forEach(c => renderClCard(clGrid, c));
+}
 
 const learnGrid = document.getElementById('learnGrid');
 learnData.forEach((item,i)=>{
@@ -773,37 +814,6 @@ testData.forEach(t=>{
     <p>"${t.text}"</p>
   `;
   testGrid.appendChild(card);
-});
-
-const clGrid = document.getElementById('clGrid');
-clData.forEach(c=>{
-  const card = document.createElement('div');
-  card.className = 'cl-card reveal';
-  card.innerHTML = `
-    <div class="cl-img">
-      <img src="${c.img}" alt="${c.title}">
-      ${c.type==='Video' ? '<div class="cl-play"><span><i class="fa-solid fa-play"></i></span></div>' : ''}
-    </div>
-    <div class="cl-body">
-      <div class="cl-meta"><i class="fa-solid ${c.type==='Video'?'fa-circle-play':'fa-file-lines'}"></i> ${c.type} <span class="dot">•</span> ${c.meta}</div>
-      <h4>${c.title}</h4>
-      <a href="#" class="btn btn-outline" style="padding:10px 20px;font-size:13px;">${c.cta} <i class="fa-solid fa-arrow-right"></i></a>
-    </div>
-  `;
-  clGrid.appendChild(card);
-});
-
-const storeGrid = document.getElementById('storeGrid');
-storeData.forEach(s=>{
-  const card = document.createElement('div');
-  card.className = 'store-card reveal';
-  card.innerHTML = `
-    <img src="${s.img}" alt="${s.title}">
-    <h4>${s.title}</h4>
-    <p>${s.desc}</p>
-    <a href="#" class="btn btn-outline" style="padding:10px 20px;font-size:13px;">Explore Resource <i class="fa-solid fa-arrow-right"></i></a>
-  `;
-  storeGrid.appendChild(card);
 });
 
 const heroSlides = document.querySelectorAll('.hero-slide');
@@ -891,6 +901,9 @@ const observer = new IntersectionObserver((entries)=>{
   });
 },{threshold:0.15});
 document.querySelectorAll('.reveal').forEach(el=> observer.observe(el));
+window.clObserver = observer;
+
+renderContinueLearning();
 </script>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
