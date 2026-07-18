@@ -1,15 +1,197 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WENA — Content Manager</title>
-  <!-- Favicon (optional, keeps browser tab tidy for the client) -->
-  <link rel="icon" href="../wena logo.png" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WENA — Content Manager</title>
+<link rel="icon" href="../wena%20logo.png">
+<style>
+  :root{ --pink:#d81159; --pink-dark:#b30d4a; --maroon:#5c1029; --bg:#fdf1f4; --text:#1c1c1e; --gray:#5c5c63; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Inter',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+  .wrap{max-width:640px;margin:0 auto;padding:60px 20px;}
+  h1{font-size:24px;margin-bottom:6px;}
+  .sub{color:var(--gray);font-size:14px;margin-bottom:30px;}
+  .card{background:#fff;border-radius:14px;padding:28px;margin-bottom:24px;box-shadow:0 10px 30px rgba(92,16,41,0.08);}
+  .card h2{font-size:17px;margin-bottom:16px;}
+  label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;margin-top:14px;color:var(--maroon);}
+  label:first-of-type{margin-top:0;}
+  input, textarea{width:100%;padding:12px 14px;border:1px solid #eee0e4;border-radius:8px;font-size:14px;font-family:inherit;outline:none;}
+  input:focus, textarea:focus{border-color:var(--pink);}
+  textarea{min-height:160px;resize:vertical;}
+  button{margin-top:18px;padding:12px 22px;border:none;border-radius:8px;background:var(--pink);color:#fff;font-weight:600;font-size:14px;cursor:pointer;transition:background .2s;}
+  button:hover{background:var(--pink-dark);}
+  button:disabled{opacity:.6;cursor:not-allowed;}
+  .msg{margin-top:12px;font-size:13px;}
+  .msg.error{color:#c0392b;}
+  .msg.success{color:#1a7a3c;}
+  #loginScreen{max-width:360px;margin:100px auto;}
+  #loginScreen .card{text-align:center;}
+  .logout{float:right;font-size:13px;color:var(--gray);cursor:pointer;text-decoration:underline;}
+  #dashboard{display:none;}
+</style>
 </head>
 <body>
-  <!-- This loads the Decap CMS admin panel. Do not edit below this line. -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+<div id="loginScreen" class="wrap">
+  <div class="card">
+    <h1>WENA Admin</h1>
+    <p class="sub">Enter password to continue</p>
+    <input type="password" id="passwordInput" placeholder="Password" autofocus>
+    <button id="loginBtn" style="width:100%;">Login</button>
+    <div id="loginMsg" class="msg error"></div>
+  </div>
+</div>
+
+<div id="dashboard" class="wrap">
+  <span class="logout" id="logoutBtn">Log out</span>
+  <h1>WENA Content Manager</h1>
+  <p class="sub">Manage the site's Continue Learning videos and blog posts.</p>
+
+  <div class="card">
+    <h2>Continue Learning Videos</h2>
+    <label>Left Video — YouTube Link</label>
+    <input type="text" id="leftUrl" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx">
+    <label>Right Video — YouTube Link</label>
+    <input type="text" id="rightUrl" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx">
+    <button id="saveVideosBtn">Save Videos</button>
+    <div id="videosMsg" class="msg"></div>
+  </div>
+
+  <div class="card">
+    <h2>New Blog Post</h2>
+    <label>Title</label>
+    <input type="text" id="postTitle" placeholder="How to Start Investing with ₹10,000">
+    <label>Publish Date</label>
+    <input type="date" id="postDate">
+    <label>Cover Image URL (optional)</label>
+    <input type="text" id="postImage" placeholder="https://...">
+    <label>Short Description</label>
+    <input type="text" id="postDescription" placeholder="One-line summary for the blog listing">
+    <label>Body (Markdown)</label>
+    <textarea id="postBody" placeholder="Write the article here. Markdown supported."></textarea>
+    <button id="publishBtn">Publish Post</button>
+    <div id="postMsg" class="msg"></div>
+  </div>
+</div>
+
+<script>
+async function api(path, opts) {
+  const res = await fetch(path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    ...opts
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+async function checkSession() {
+  const res = await fetch('/api/check-session', { credentials: 'same-origin' });
+  const data = await res.json();
+  return data.loggedIn;
+}
+
+async function showDashboard() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('postDate').value = new Date().toISOString().slice(0, 10);
+  try {
+    const res = await fetch('/api/get-continue-learning', { credentials: 'same-origin' });
+    if (res.ok) {
+      const data = await res.json();
+      document.getElementById('leftUrl').value = (data.left && data.left.youtube_url) || '';
+      document.getElementById('rightUrl').value = (data.right && data.right.youtube_url) || '';
+    }
+  } catch (e) { /* non-fatal, form just stays empty */ }
+}
+
+function showLogin() {
+  document.getElementById('loginScreen').style.display = 'block';
+  document.getElementById('dashboard').style.display = 'none';
+}
+
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const password = document.getElementById('passwordInput').value;
+  const msg = document.getElementById('loginMsg');
+  msg.textContent = '';
+  try {
+    await api('/api/login', { body: JSON.stringify({ password }) });
+    showDashboard();
+  } catch (e) {
+    msg.textContent = 'Wrong password. Try again.';
+  }
+});
+document.getElementById('passwordInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('loginBtn').click();
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' });
+  showLogin();
+});
+
+document.getElementById('saveVideosBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('saveVideosBtn');
+  const msg = document.getElementById('videosMsg');
+  btn.disabled = true;
+  msg.className = 'msg';
+  msg.textContent = 'Saving...';
+  try {
+    await api('/api/save-continue-learning', {
+      body: JSON.stringify({
+        leftUrl: document.getElementById('leftUrl').value,
+        rightUrl: document.getElementById('rightUrl').value
+      })
+    });
+    msg.className = 'msg success';
+    msg.textContent = 'Saved! Live in ~30 seconds after Vercel redeploys.';
+  } catch (e) {
+    msg.className = 'msg error';
+    msg.textContent = e.message;
+  }
+  btn.disabled = false;
+});
+
+document.getElementById('publishBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('publishBtn');
+  const msg = document.getElementById('postMsg');
+  const title = document.getElementById('postTitle').value;
+  const body = document.getElementById('postBody').value;
+  if (!title || !body) {
+    msg.className = 'msg error';
+    msg.textContent = 'Title and body are required.';
+    return;
+  }
+  btn.disabled = true;
+  msg.className = 'msg';
+  msg.textContent = 'Publishing...';
+  try {
+    await api('/api/save-blog-post', {
+      body: JSON.stringify({
+        title,
+        date: document.getElementById('postDate').value,
+        image: document.getElementById('postImage').value,
+        description: document.getElementById('postDescription').value,
+        content: body
+      })
+    });
+    msg.className = 'msg success';
+    msg.textContent = 'Published! Live in ~30 seconds after Vercel redeploys.';
+    document.getElementById('postTitle').value = '';
+    document.getElementById('postImage').value = '';
+    document.getElementById('postDescription').value = '';
+    document.getElementById('postBody').value = '';
+  } catch (e) {
+    msg.className = 'msg error';
+    msg.textContent = e.message;
+  }
+  btn.disabled = false;
+});
+
+checkSession().then(loggedIn => loggedIn ? showDashboard() : showLogin());
+</script>
 </body>
 </html>
