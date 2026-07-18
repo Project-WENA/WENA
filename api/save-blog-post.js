@@ -1,5 +1,6 @@
 const { requireSession } = require('../lib/session');
 const { putFile } = require('../lib/github');
+const { buildFrontmatter } = require('../lib/frontmatter');
 
 function slugify(title) {
   return title
@@ -8,10 +9,6 @@ function slugify(title) {
     .replace(/[^a-z0-9\s-]/g, '')
     .replace(/\s+/g, '-')
     .replace(/-+/g, '-');
-}
-
-function escapeYamlString(str) {
-  return String(str || '').replace(/"/g, '\\"');
 }
 
 module.exports = async (req, res) => {
@@ -28,7 +25,7 @@ module.exports = async (req, res) => {
   if (typeof body === 'string') {
     try { body = JSON.parse(body); } catch (e) { body = {}; }
   }
-  const { title, date, image, description, content } = body || {};
+  const { title, date, image, description, content, path: existingPath } = body || {};
 
   if (!title || !content) {
     res.status(400).json({ error: 'Title and body are required' });
@@ -36,26 +33,30 @@ module.exports = async (req, res) => {
   }
 
   const isoDate = date ? new Date(date) : new Date();
-  const yyyy = isoDate.getFullYear();
-  const mm = String(isoDate.getMonth() + 1).padStart(2, '0');
-  const dd = String(isoDate.getDate()).padStart(2, '0');
-  const slug = slugify(title);
-  const path = `content/blog/${yyyy}-${mm}-${dd}-${slug}.md`;
+  let path = existingPath;
 
-  const frontmatter = [
-    '---',
-    `title: "${escapeYamlString(title)}"`,
-    `date: ${isoDate.toISOString()}`,
-    image ? `image: ${image}` : null,
-    `description: "${escapeYamlString(description)}"`,
-    '---',
-    ''
-  ].filter(Boolean).join('\n');
+  if (!path) {
+    const yyyy = isoDate.getFullYear();
+    const mm = String(isoDate.getMonth() + 1).padStart(2, '0');
+    const dd = String(isoDate.getDate()).padStart(2, '0');
+    const slug = slugify(title);
+    path = `content/blog/${yyyy}-${mm}-${dd}-${slug}.md`;
+  } else if (!path.startsWith('content/blog/') || !path.endsWith('.md')) {
+    res.status(400).json({ error: 'Invalid path' });
+    return;
+  }
 
-  const fileContent = frontmatter + '\n' + content + '\n';
+  const fileContent = buildFrontmatter(
+    { title, date: isoDate.toISOString(), image, description },
+    content
+  );
 
   try {
-    await putFile(path, fileContent, `Add blog post: ${title}`);
+    await putFile(
+      path,
+      fileContent,
+      existingPath ? `Update blog post: ${title}` : `Add blog post: ${title}`
+    );
     res.status(200).json({ ok: true, path });
   } catch (e) {
     res.status(500).json({ error: e.message });
