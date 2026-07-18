@@ -29,6 +29,19 @@
   #loginScreen .card{text-align:center;}
   .logout{float:right;font-size:13px;color:var(--gray);cursor:pointer;text-decoration:underline;}
   #dashboard{display:none;}
+  .post-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f3e6ea;}
+  .post-row:last-child{border-bottom:none;}
+  .post-info h4{font-size:14px;font-weight:600;}
+  .post-info .date{font-size:12px;color:var(--gray);margin-top:2px;}
+  .post-actions{display:flex;gap:8px;flex-shrink:0;}
+  .post-actions button{margin-top:0;padding:8px 14px;font-size:12.5px;}
+  .btn-secondary{background:#f3e6ea;color:var(--maroon);}
+  .btn-secondary:hover{background:#eed6dd;}
+  .btn-danger{background:#fdeceb;color:#c0392b;}
+  .btn-danger:hover{background:#f9d6d3;}
+  .empty-note{font-size:13px;color:var(--gray);padding:6px 0;}
+  .cancel-edit{font-size:13px;color:var(--gray);text-decoration:underline;cursor:pointer;margin-left:14px;}
+  .editing-banner{background:var(--bg);border:1px solid #f0d3dc;color:var(--maroon);font-size:12.5px;font-weight:600;padding:8px 12px;border-radius:8px;margin-bottom:14px;}
 </style>
 </head>
 <body>
@@ -59,7 +72,14 @@
   </div>
 
   <div class="card">
-    <h2>New Blog Post</h2>
+    <h2>Blog Posts</h2>
+    <div id="postsList"><p class="empty-note">Loading...</p></div>
+  </div>
+
+  <div class="card" id="postFormCard">
+    <h2 id="postFormTitle">New Blog Post</h2>
+    <div id="editingBanner" class="editing-banner" style="display:none;">Editing an existing post</div>
+    <input type="hidden" id="editingPath" value="">
     <label>Title</label>
     <input type="text" id="postTitle" placeholder="How to Start Investing with ₹10,000">
     <label>Publish Date</label>
@@ -71,6 +91,7 @@
     <label>Body (Markdown)</label>
     <textarea id="postBody" placeholder="Write the article here. Markdown supported."></textarea>
     <button id="publishBtn">Publish Post</button>
+    <span class="cancel-edit" id="cancelEditBtn" style="display:none;">Cancel edit</span>
     <div id="postMsg" class="msg"></div>
   </div>
 </div>
@@ -106,6 +127,99 @@ async function showDashboard() {
       document.getElementById('rightUrl').value = (data.right && data.right.youtube_url) || '';
     }
   } catch (e) { /* non-fatal, form just stays empty */ }
+  loadPostsList();
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  const dt = new Date(d);
+  if (isNaN(dt)) return d;
+  return dt.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+async function loadPostsList() {
+  const listEl = document.getElementById('postsList');
+  listEl.innerHTML = '<p class="empty-note">Loading...</p>';
+  try {
+    const res = await fetch('/api/list-blog-posts', { credentials: 'same-origin' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to load posts');
+    if (!data.posts.length) {
+      listEl.innerHTML = '<p class="empty-note">No blog posts yet. Publish your first one below.</p>';
+      return;
+    }
+    listEl.innerHTML = '';
+    data.posts.forEach(p => {
+      const row = document.createElement('div');
+      row.className = 'post-row';
+      row.innerHTML = `
+        <div class="post-info">
+          <h4>${p.title}</h4>
+          <div class="date">${fmtDate(p.date)}</div>
+        </div>
+        <div class="post-actions">
+          <button class="btn-secondary" data-path="${p.path}" data-action="edit">Edit</button>
+          <button class="btn-danger" data-path="${p.path}" data-action="delete">Delete</button>
+        </div>
+      `;
+      listEl.appendChild(row);
+    });
+    listEl.querySelectorAll('[data-action="edit"]').forEach(btn => {
+      btn.addEventListener('click', () => startEditPost(btn.dataset.path));
+    });
+    listEl.querySelectorAll('[data-action="delete"]').forEach(btn => {
+      btn.addEventListener('click', () => deletePost(btn.dataset.path));
+    });
+  } catch (e) {
+    listEl.innerHTML = `<p class="empty-note">Error loading posts: ${e.message}</p>`;
+  }
+}
+
+async function startEditPost(path) {
+  try {
+    const res = await fetch(`/api/get-blog-post?path=${encodeURIComponent(path)}`, { credentials: 'same-origin' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to load post');
+    document.getElementById('editingPath').value = data.path;
+    document.getElementById('postTitle').value = data.title;
+    document.getElementById('postDate').value = data.date;
+    document.getElementById('postImage').value = data.image;
+    document.getElementById('postDescription').value = data.description;
+    document.getElementById('postBody').value = data.content;
+    document.getElementById('postFormTitle').textContent = 'Edit Blog Post';
+    document.getElementById('editingBanner').style.display = 'block';
+    document.getElementById('cancelEditBtn').style.display = 'inline';
+    document.getElementById('publishBtn').textContent = 'Update Post';
+    document.getElementById('postFormCard').scrollIntoView({ behavior: 'smooth' });
+  } catch (e) {
+    alert(e.message);
+  }
+}
+
+function exitEditMode() {
+  document.getElementById('editingPath').value = '';
+  document.getElementById('postTitle').value = '';
+  document.getElementById('postDate').value = new Date().toISOString().slice(0, 10);
+  document.getElementById('postImage').value = '';
+  document.getElementById('postDescription').value = '';
+  document.getElementById('postBody').value = '';
+  document.getElementById('postFormTitle').textContent = 'New Blog Post';
+  document.getElementById('editingBanner').style.display = 'none';
+  document.getElementById('cancelEditBtn').style.display = 'none';
+  document.getElementById('publishBtn').textContent = 'Publish Post';
+}
+
+document.getElementById('cancelEditBtn').addEventListener('click', exitEditMode);
+
+async function deletePost(path) {
+  if (!confirm('Delete this blog post? This cannot be undone.')) return;
+  try {
+    await api('/api/delete-blog-post', { body: JSON.stringify({ path }) });
+    if (document.getElementById('editingPath').value === path) exitEditMode();
+    loadPostsList();
+  } catch (e) {
+    alert('Failed to delete: ' + e.message);
+  }
 }
 
 function showLogin() {
@@ -160,6 +274,7 @@ document.getElementById('publishBtn').addEventListener('click', async () => {
   const msg = document.getElementById('postMsg');
   const title = document.getElementById('postTitle').value;
   const body = document.getElementById('postBody').value;
+  const editingPath = document.getElementById('editingPath').value;
   if (!title || !body) {
     msg.className = 'msg error';
     msg.textContent = 'Title and body are required.';
@@ -167,23 +282,21 @@ document.getElementById('publishBtn').addEventListener('click', async () => {
   }
   btn.disabled = true;
   msg.className = 'msg';
-  msg.textContent = 'Publishing...';
+  msg.textContent = editingPath ? 'Updating...' : 'Publishing...';
   try {
-    await api('/api/save-blog-post', {
-      body: JSON.stringify({
-        title,
-        date: document.getElementById('postDate').value,
-        image: document.getElementById('postImage').value,
-        description: document.getElementById('postDescription').value,
-        content: body
-      })
-    });
+    const payload = {
+      title,
+      date: document.getElementById('postDate').value,
+      image: document.getElementById('postImage').value,
+      description: document.getElementById('postDescription').value,
+      content: body
+    };
+    if (editingPath) payload.path = editingPath;
+    await api('/api/save-blog-post', { body: JSON.stringify(payload) });
     msg.className = 'msg success';
-    msg.textContent = 'Published! Live in ~30 seconds after Vercel redeploys.';
-    document.getElementById('postTitle').value = '';
-    document.getElementById('postImage').value = '';
-    document.getElementById('postDescription').value = '';
-    document.getElementById('postBody').value = '';
+    msg.textContent = (editingPath ? 'Updated!' : 'Published!') + ' Live in ~30 seconds after Vercel redeploys.';
+    exitEditMode();
+    loadPostsList();
   } catch (e) {
     msg.className = 'msg error';
     msg.textContent = e.message;
