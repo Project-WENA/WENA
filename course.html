@@ -53,7 +53,8 @@ img{max-width:100%;display:block;}
 .split{padding:64px 0 90px;}
 .split-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:stretch;}
 .split-card{background:#fff;border:1px solid #f2e2e8;border-radius:20px;padding:36px;box-shadow:0 20px 50px rgba(92,16,41,0.08);
-  display:flex;flex-direction:column;}
+  display:flex;flex-direction:column;transition:box-shadow .4s var(--ease-premium), transform .4s var(--ease-premium);}
+.split-card:hover{box-shadow:0 26px 60px rgba(92,16,41,0.14);transform:translateY(-4px);}
 .split-card .tag{display:inline-flex;align-items:center;gap:8px;background:var(--bg-pale);color:var(--pink);
   font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:20px;margin-bottom:18px;align-self:flex-start;}
 .split-card h2{font-size:24px;font-weight:800;margin-bottom:10px;line-height:1.3;}
@@ -102,8 +103,8 @@ footer.mini{background:var(--maroon-dark);color:rgba(255,255,255,0.6);text-align
 <section class="page-hero">
   <div class="container">
     <span class="eyebrow"><i class="fa-solid fa-graduation-cap"></i> LEARN WITH WENA</span>
-    <h1>A short video course <span>&amp;</span> a book — pick what fits you.</h1>
-    <p>Structured, practical financial education for Indian women — at your own pace or in your hands.</p>
+    <h1>A video course and a book <span>on personal finance.</span></h1>
+    <p>Two ways to build financial confidence — watch at your own pace, or read in your own time.</p>
   </div>
 </section>
 
@@ -114,8 +115,8 @@ footer.mini{background:var(--maroon-dark);color:rgba(255,255,255,0.6);text-align
       <!-- COURSE -->
       <div class="split-card">
         <span class="tag"><i class="fa-solid fa-play"></i> ONLINE VIDEO COURSE</span>
-        <h2>Financial Confidence, Simplified</h2>
-        <p class="sub">6 short, jargon-free video lectures covering the essentials every woman needs to manage money confidently.</p>
+        <h2>Personal Finance Essentials</h2>
+        <p class="sub">Six video lectures covering the core financial skills every woman should know — from budgeting to investing.</p>
 
         <div class="course-price-row">
           <span class="price">₹199</span>
@@ -125,27 +126,27 @@ footer.mini{background:var(--maroon-dark);color:rgba(255,255,255,0.6);text-align
         <ul class="lecture-list">
           <li>
             <div class="lecture-num">1</div>
-            <div><h5>Budgeting Basics</h5><p>Build a monthly budget that actually works</p></div>
+            <div><h5>Budgeting Basics</h5><p>Setting up a monthly budget you can actually follow</p></div>
           </li>
           <li>
             <div class="lecture-num">2</div>
-            <div><h5>Saving Smart</h5><p>Habits and tools to save consistently</p></div>
+            <div><h5>Saving Smart</h5><p>Building a consistent saving habit</p></div>
           </li>
           <li>
             <div class="lecture-num">3</div>
-            <div><h5>Intro to Mutual Funds &amp; SIP</h5><p>How to start investing with small amounts</p></div>
+            <div><h5>Intro to Mutual Funds &amp; SIP</h5><p>Getting started with small, regular investments</p></div>
           </li>
           <li>
             <div class="lecture-num">4</div>
-            <div><h5>Insurance Essentials</h5><p>Life, health &amp; term — what you actually need</p></div>
+            <div><h5>Insurance Essentials</h5><p>Choosing the right life, health and term cover</p></div>
           </li>
           <li>
             <div class="lecture-num">5</div>
-            <div><h5>Goal-Based Planning</h5><p>Turn financial goals into an action plan</p></div>
+            <div><h5>Goal-Based Planning</h5><p>Turning financial goals into a clear plan</p></div>
           </li>
           <li>
             <div class="lecture-num">6</div>
-            <div><h5>Staying Safe from Fraud</h5><p>Spot and avoid common financial scams</p></div>
+            <div><h5>Staying Safe from Fraud</h5><p>Recognising and avoiding common financial scams</p></div>
           </li>
         </ul>
 
@@ -159,7 +160,7 @@ footer.mini{background:var(--maroon-dark);color:rgba(255,255,255,0.6);text-align
       <div class="split-card">
         <span class="tag"><i class="fa-solid fa-book"></i> BOOK BY NITU SHARMA</span>
         <h2>Take Control of Your Money</h2>
-        <p class="sub">A practical, easy-to-follow guide for Indian women to build lifelong financial confidence — in print and on Kindle.</p>
+        <p class="sub">A practical guide to money management for Indian women, written by WENA founder Nitu Sharma.</p>
 
         <div class="book-cover" id="bookCoverWrap">
           <span>Book cover coming soon</span>
