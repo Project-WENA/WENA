@@ -183,11 +183,11 @@ section{padding:100px 0;position:relative;}
 .who-arrow:hover{background:var(--pink);color:#fff;border-color:var(--pink);}
 .who-arrow.left{left:0;}
 .who-arrow.right{right:0;}
-.who-viewport{overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;}
-.who-viewport::-webkit-scrollbar{display:none;}
-.who-track{display:flex;gap:24px;padding:6px 2px 14px;}
-.who-slide{flex:0 0 auto;width:260px;scroll-snap-align:start;background:#fff;border:1px solid #f2e2e8;border-radius:16px;
-  overflow:hidden;transition:all var(--transition);}
+.who-arrow.disabled{opacity:.35;pointer-events:none;}
+.who-viewport{overflow:hidden;}
+.who-track{display:flex;gap:24px;padding:6px 2px 14px;transition:transform .65s var(--ease-premium);will-change:transform;}
+.who-slide{flex:0 0 auto;width:calc((100% - 3*24px)/4);background:#fff;border:1px solid #f2e2e8;border-radius:16px;
+  overflow:hidden;transition:box-shadow var(--transition), transform var(--transition);}
 .who-slide:hover{box-shadow:0 16px 40px rgba(92,16,41,0.12);transform:translateY(-6px);}
 .who-slide-icon{width:52px;height:52px;border-radius:50%;background:var(--bg-pale);color:var(--pink);
   display:flex;align-items:center;justify-content:center;font-size:19px;margin:22px auto 0;}
@@ -343,6 +343,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
 
 @media(max-width:1100px){
   .test-grid, .learn-grid, .cl-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .who-slide{width:calc((100% - 24px)/2);}
   .mission-wrap, .corp-wrap, .founder-wrap, .contact-wrap{grid-template-columns:1fr!important;}
   .process-flow{flex-wrap:wrap;gap:30px;}
   .process-flow:before{display:none;}
@@ -368,7 +369,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
   .test-grid, .learn-grid, .cl-grid{grid-template-columns:1fr!important;}
   .who-carousel{padding:0 44px;}
   .who-arrow{width:36px;height:36px;font-size:13px;}
-  .who-slide{width:210px;}
+  .who-slide{width:100%;}
   .corp-checks{grid-template-columns:1fr;}
   .footer-grid{grid-template-columns:1fr;}
   .nl-wrap{flex-direction:column;align-items:flex-start;}
@@ -821,36 +822,43 @@ const whoViewport = document.getElementById('whoViewport');
 const whoTrack = document.getElementById('whoTrack');
 const whoSlides = document.querySelectorAll('.who-slide');
 const whoDotsWrap = document.getElementById('whoDots');
+const whoPrevBtn = document.getElementById('whoPrev');
+const whoNextBtn = document.getElementById('whoNext');
 
 whoSlides.forEach((slide, i)=>{
   const dot = document.createElement('div');
   dot.className = 'who-dot' + (i===0 ? ' active' : '');
-  dot.addEventListener('click', ()=> slide.scrollIntoView({behavior:'smooth', inline:'start', block:'nearest'}));
+  dot.addEventListener('click', ()=>{ whoIndex = i; updateWhoTrack(); });
   whoDotsWrap.appendChild(dot);
 });
 const whoDots = document.querySelectorAll('.who-dot');
 
-function updateWhoActiveDot(){
-  const viewportLeft = whoViewport.getBoundingClientRect().left;
-  let closestIdx = 0, closestDist = Infinity;
-  whoSlides.forEach((slide, i)=>{
-    const dist = Math.abs(slide.getBoundingClientRect().left - viewportLeft);
-    if(dist < closestDist){ closestDist = dist; closestIdx = i; }
-  });
-  whoDots.forEach((d, i)=> d.classList.toggle('active', i === closestIdx));
-}
-whoViewport.addEventListener('scroll', ()=> requestAnimationFrame(updateWhoActiveDot));
+let whoIndex = 0;
 
-function whoScrollStep(){
-  const firstSlide = whoSlides[0];
-  return firstSlide ? firstSlide.getBoundingClientRect().width + 24 : 280;
+function whoStep(){
+  const gap = parseFloat(getComputedStyle(whoTrack).gap) || 24;
+  return whoSlides[0].getBoundingClientRect().width + gap;
 }
-document.getElementById('whoNext').addEventListener('click', ()=>{
-  whoViewport.scrollBy({left: whoScrollStep(), behavior:'smooth'});
+function whoVisibleCount(){
+  return Math.max(1, Math.round(whoViewport.getBoundingClientRect().width / whoStep()));
+}
+function updateWhoTrack(){
+  const maxIndex = Math.max(0, whoSlides.length - whoVisibleCount());
+  whoIndex = Math.min(Math.max(whoIndex, 0), maxIndex);
+  whoTrack.style.transform = `translateX(-${whoIndex * whoStep()}px)`;
+  whoDots.forEach((d, i)=> d.classList.toggle('active', i === whoIndex));
+  whoPrevBtn.classList.toggle('disabled', whoIndex === 0);
+  whoNextBtn.classList.toggle('disabled', whoIndex === maxIndex);
+}
+whoNextBtn.addEventListener('click', ()=>{ whoIndex++; updateWhoTrack(); });
+whoPrevBtn.addEventListener('click', ()=>{ whoIndex--; updateWhoTrack(); });
+
+let whoResizeTimer;
+window.addEventListener('resize', ()=>{
+  clearTimeout(whoResizeTimer);
+  whoResizeTimer = setTimeout(updateWhoTrack, 150);
 });
-document.getElementById('whoPrev').addEventListener('click', ()=>{
-  whoViewport.scrollBy({left: -whoScrollStep(), behavior:'smooth'});
-});
+updateWhoTrack();
 
 const learnGrid = document.getElementById('learnGrid');
 learnData.forEach((item,i)=>{
