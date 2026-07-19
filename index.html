@@ -729,9 +729,6 @@ const testData = [
    text:"WENA helped me separate my business and personal finances. I now track cash flow, plan taxes and invest profits wisely. My business and confidence—both have grown!"}
 ];
 
-// Center card is reserved for the upcoming paid course — kept as a fixed, non-CMS-driven entry for now.
-const clCenterData = {type:"Article", meta:"6 min read", title:"How to Start Investing with ₹10,000", img:"assets/cl_invest_10k.jpg", cta:"Read Article", link:"#"};
-
 // Extracts an 11-char YouTube video ID from any common YouTube URL format.
 function extractYouTubeId(url){
   if(!url) return null;
@@ -778,29 +775,30 @@ function renderClCard(clGrid, c){
   if(window.clObserver) window.clObserver.observe(card);
 }
 
-// Reads content/continue-learning.json for the left/right YouTube links (this file will be
-// what the CMS admin panel writes to once it's wired up), builds their card data, and renders
-// all three cards in order: left (video) — center (fixed) — right (video).
+// Reads content/continue-learning.json for the left/center/right YouTube links (written by the
+// admin panel), builds their card data, and renders all three cards in order.
 async function renderContinueLearning(){
   const clGrid = document.getElementById('clGrid');
   if(!clGrid) return;
   clGrid.innerHTML = '';
-  let leftUrl = null, rightUrl = null;
+  let leftUrl = null, centerUrl = null, rightUrl = null;
   try{
     const res = await fetch('content/continue-learning.json');
     if(res.ok){
       const json = await res.json();
       leftUrl = json.left && json.left.youtube_url;
+      centerUrl = json.center && json.center.youtube_url;
       rightUrl = json.right && json.right.youtube_url;
     }
-  }catch(e){ /* no CMS data yet — left/right simply won't render until it exists */ }
+  }catch(e){ /* no CMS data yet — cards simply won't render until it exists */ }
 
-  const [leftData, rightData] = await Promise.all([
+  const [leftData, centerData, rightData] = await Promise.all([
     buildYouTubeCardData(leftUrl),
+    buildYouTubeCardData(centerUrl),
     buildYouTubeCardData(rightUrl)
   ]);
 
-  [leftData, clCenterData, rightData].filter(Boolean).forEach(c => renderClCard(clGrid, c));
+  [leftData, centerData, rightData].filter(Boolean).forEach(c => renderClCard(clGrid, c));
 }
 
 const learnGrid = document.getElementById('learnGrid');
