@@ -65,6 +65,8 @@
     <h2>Continue Learning Videos</h2>
     <label>Left Video — YouTube Link</label>
     <input type="text" id="leftUrl" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx">
+    <label>Center Video — YouTube Link</label>
+    <input type="text" id="centerUrl" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx">
     <label>Right Video — YouTube Link</label>
     <input type="text" id="rightUrl" placeholder="https://www.youtube.com/watch?v=xxxxxxxxxxx">
     <button id="saveVideosBtn">Save Videos</button>
@@ -124,6 +126,7 @@ async function showDashboard() {
     if (res.ok) {
       const data = await res.json();
       document.getElementById('leftUrl').value = (data.left && data.left.youtube_url) || '';
+      document.getElementById('centerUrl').value = (data.center && data.center.youtube_url) || '';
       document.getElementById('rightUrl').value = (data.right && data.right.youtube_url) || '';
     }
   } catch (e) { /* non-fatal, form just stays empty */ }
@@ -257,6 +260,7 @@ document.getElementById('saveVideosBtn').addEventListener('click', async () => {
     await api('/api/save-continue-learning', {
       body: JSON.stringify({
         leftUrl: document.getElementById('leftUrl').value,
+        centerUrl: document.getElementById('centerUrl').value,
         rightUrl: document.getElementById('rightUrl').value
       })
     });
