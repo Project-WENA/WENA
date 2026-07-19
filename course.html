@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WENA Video Course &amp; Book — Women Enabling New Ambitions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --pink:#d81159;
+  --pink-dark:#b30d4a;
+  --maroon:#5c1029;
+  --maroon-dark:#3a0a1a;
+  --bg-light:#fdf1f4;
+  --bg-pale:#fbe3ea;
+  --text-dark:#1c1c1e;
+  --text-gray:#5c5c63;
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;color:var(--text-dark);background:#fff;}
+h1,h2,h3,h4{font-family:'Poppins',sans-serif;}
+a{text-decoration:none;color:inherit;}
+img{max-width:100%;display:block;}
+.container{max-width:1200px;margin:0 auto;padding:0 24px;}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 30px;border-radius:30px;font-weight:600;font-size:15px;
+  transition:transform .4s var(--ease-premium), box-shadow .4s var(--ease-premium), background .3s ease;
+  white-space:nowrap;border:none;cursor:pointer;
+}
+.btn-primary{background:var(--pink);color:#fff;box-shadow:0 6px 18px rgba(216,17,89,0.28);}
+.btn-primary:hover{background:var(--pink-dark);transform:translateY(-3px) scale(1.02);}
+.btn-dark{background:var(--maroon);color:#fff;}
+.btn-dark:hover{background:var(--maroon-dark);transform:translateY(-3px) scale(1.02);}
+
+.topbar{background:var(--maroon-dark);padding:14px 0;}
+.topbar .container{display:flex;align-items:center;justify-content:space-between;}
+.topbar-logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;font-size:14.5px;}
+.topbar-logo i{color:var(--pink);}
+.topbar a.back{color:rgba(255,255,255,0.75);font-size:13.5px;display:flex;align-items:center;gap:6px;transition:color .3s;}
+.topbar a.back:hover{color:#fff;}
+
+.page-hero{background:linear-gradient(120deg,var(--maroon-dark),var(--maroon));padding:56px 0 44px;text-align:center;color:#fff;}
+.page-hero .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);color:#ffb3c8;
+  font-size:12.5px;font-weight:700;padding:7px 16px;border-radius:20px;margin-bottom:16px;letter-spacing:.5px;}
+.page-hero h1{font-size:34px;font-weight:800;line-height:1.3;max-width:680px;margin:0 auto 12px;}
+.page-hero h1 span{color:var(--pink);}
+.page-hero p{color:rgba(255,255,255,0.75);font-size:15px;max-width:560px;margin:0 auto;}
+
+.split{padding:64px 0 90px;}
+.split-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:stretch;}
+.split-card{background:#fff;border:1px solid #f2e2e8;border-radius:20px;padding:36px;box-shadow:0 20px 50px rgba(92,16,41,0.08);
+  display:flex;flex-direction:column;}
+.split-card .tag{display:inline-flex;align-items:center;gap:8px;background:var(--bg-pale);color:var(--pink);
+  font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:20px;margin-bottom:18px;align-self:flex-start;}
+.split-card h2{font-size:24px;font-weight:800;margin-bottom:10px;line-height:1.3;}
+.split-card .sub{color:var(--text-gray);font-size:14px;margin-bottom:22px;line-height:1.6;}
+
+.course-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:24px;}
+.course-price-row .price{font-family:'Poppins';font-size:36px;font-weight:800;color:var(--pink);}
+.course-price-row .old-price{font-size:15px;color:var(--text-gray);text-decoration:line-through;}
+
+.lecture-list{list-style:none;margin-bottom:28px;flex:1;}
+.lecture-list li{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px dashed #f0dde4;}
+.lecture-list li:last-child{border-bottom:none;}
+.lecture-num{width:26px;height:26px;border-radius:50%;background:var(--bg-pale);color:var(--pink);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;}
+.lecture-list h5{font-size:14.5px;font-weight:700;margin-bottom:2px;}
+.lecture-list p{font-size:12.5px;color:var(--text-gray);}
+
+.book-cover{border-radius:14px;overflow:hidden;margin-bottom:22px;box-shadow:0 16px 34px rgba(92,16,41,0.14);
+  aspect-ratio:3/4;max-width:230px;align-self:center;background:var(--bg-pale);
+  display:flex;align-items:center;justify-content:center;color:var(--pink);font-size:13px;text-align:center;padding:20px;}
+.book-cover img{width:100%;height:100%;object-fit:cover;}
+.book-meta{text-align:center;color:var(--text-gray);font-size:13px;margin-bottom:22px;}
+.book-meta b{color:var(--text-dark);}
+
+.split-card .cta{margin-top:auto;}
+.split-card .cta .btn{width:100%;justify-content:center;}
+.note{font-size:12px;color:var(--text-gray);text-align:center;margin-top:12px;}
+
+footer.mini{background:var(--maroon-dark);color:rgba(255,255,255,0.6);text-align:center;padding:26px 0;font-size:12.5px;}
+
+@media(max-width:860px){
+  .split-grid{grid-template-columns:1fr;}
+  .page-hero h1{font-size:26px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-logo"><i class="fa-solid fa-sun"></i> WENA</div>
+    <a href="index.html" class="back"><i class="fa-solid fa-arrow-left"></i> Back to WENA site</a>
+  </div>
+</div>
+
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow"><i class="fa-solid fa-graduation-cap"></i> LEARN WITH WENA</span>
+    <h1>A short video course <span>&amp;</span> a book — pick what fits you.</h1>
+    <p>Structured, practical financial education for Indian women — at your own pace or in your hands.</p>
+  </div>
+</section>
+
+<section class="split">
+  <div class="container">
+    <div class="split-grid">
+
+      <!-- COURSE -->
+      <div class="split-card">
+        <span class="tag"><i class="fa-solid fa-play"></i> ONLINE VIDEO COURSE</span>
+        <h2>Financial Confidence, Simplified</h2>
+        <p class="sub">6 short, jargon-free video lectures covering the essentials every woman needs to manage money confidently.</p>
+
+        <div class="course-price-row">
+          <span class="price">₹199</span>
+          <span class="old-price">₹999</span>
+        </div>
+
+        <ul class="lecture-list">
+          <li>
+            <div class="lecture-num">1</div>
+            <div><h5>Budgeting Basics</h5><p>Build a monthly budget that actually works</p></div>
+          </li>
+          <li>
+            <div class="lecture-num">2</div>
+            <div><h5>Saving Smart</h5><p>Habits and tools to save consistently</p></div>
+          </li>
+          <li>
+            <div class="lecture-num">3</div>
+            <div><h5>Intro to Mutual Funds &amp; SIP</h5><p>How to start investing with small amounts</p></div>
+          </li>
+          <li>
+            <div class="lecture-num">4</div>
+            <div><h5>Insurance Essentials</h5><p>Life, health &amp; term — what you actually need</p></div>
+          </li>
+          <li>
+            <div class="lecture-num">5</div>
+            <div><h5>Goal-Based Planning</h5><p>Turn financial goals into an action plan</p></div>
+          </li>
+          <li>
+            <div class="lecture-num">6</div>
+            <div><h5>Staying Safe from Fraud</h5><p>Spot and avoid common financial scams</p></div>
+          </li>
+        </ul>
+
+        <div class="cta">
+          <a href="#" class="btn btn-primary" id="enrollBtn"><i class="fa-solid fa-lock-open"></i> Enroll Now — ₹199</a>
+          <div class="note">Lifetime access · Watch on any device</div>
+        </div>
+      </div>
+
+      <!-- BOOK -->
+      <div class="split-card">
+        <span class="tag"><i class="fa-solid fa-book"></i> BOOK BY NITU SHARMA</span>
+        <h2>Take Control of Your Money</h2>
+        <p class="sub">A practical, easy-to-follow guide for Indian women to build lifelong financial confidence — in print and on Kindle.</p>
+
+        <div class="book-cover" id="bookCoverWrap">
+          <span>Book cover coming soon</span>
+        </div>
+        <div class="book-meta">By <b>Nitu Sharma</b> · Available on Amazon</div>
+
+        <div class="cta">
+          <a href="#" target="_blank" rel="noopener" class="btn btn-dark" id="amazonBtn"><i class="fa-brands fa-amazon"></i> Buy on Amazon</a>
+          <div class="note">Ships across India · Also available on Kindle</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="mini">© 2026 Women Enabling New Ambitions (WENA) — <a href="index.html" style="color:#ffb3c8;">wena.com</a></footer>
+
+</body>
+</html>
