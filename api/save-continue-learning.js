@@ -15,10 +15,11 @@ module.exports = async (req, res) => {
   if (typeof body === 'string') {
     try { body = JSON.parse(body); } catch (e) { body = {}; }
   }
-  const { leftUrl, rightUrl } = body || {};
+  const { leftUrl, centerUrl, rightUrl } = body || {};
 
   const data = {
     left: { youtube_url: leftUrl || '' },
+    center: { youtube_url: centerUrl || '' },
     right: { youtube_url: rightUrl || '' }
   };
 
