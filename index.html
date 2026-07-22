@@ -67,6 +67,16 @@ header{
   transition:background var(--transition), box-shadow var(--transition), padding var(--transition);
 }
 header.solid{background:#ffffff;padding:12px 0;box-shadow:0 4px 20px rgba(0,0,0,0.12);}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  height:44px;
+}
+.logo .mark{
+  height:100%;
+  flex-shrink:0;
+}
 .logo .mark img{height:100%;width:auto;object-fit:contain;}
 .logo-text{line-height:1.2;}
 .logo-text .top{font-weight:700;font-size:15px;letter-spacing:1px;}
