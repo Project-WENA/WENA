@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WENA — Women Enabling New Ambitions</title>
+<title>WENA — Building Financial Confidence in Women.</title>
+<meta name="description" content="WENA is a social impact organization building financial confidence in women, with a mission to empower 1 million women across India.">
+<meta property="og:title" content="WENA — Building Financial Confidence in Women.">
+<meta property="og:description" content="WENA is a social impact organization building financial confidence in women, with a mission to empower 1 million women across India.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital@1&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -86,6 +89,8 @@ header .container{
 .logo-text{line-height:1.2;}
 .logo-text .top{font-weight:700;font-size:15px;letter-spacing:1px;}
 .logo-text .bottom{font-size:12px;opacity:.85;font-weight:400;}
+.logo-tagline{font-size:11.5px;font-weight:600;color:var(--maroon);opacity:.75;letter-spacing:.2px;line-height:1.2;}
+.footer-logo-tagline{font-size:12px;color:rgba(255,255,255,0.65);margin-top:6px;font-weight:500;}
 nav ul{display:flex;gap:34px;align-items:center;}
 nav ul li a{color:var(--text-dark);font-size:15px;font-weight:500;opacity:.92;position:relative;transition:opacity .3s;}
 nav ul li a:hover{opacity:1;}
@@ -111,8 +116,17 @@ nav ul li a:hover:after{width:100%;}
 .hero-slide:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,5,8,0.88) 0%,rgba(10,5,8,0.55) 45%,rgba(10,5,8,0.25) 100%);}
 @keyframes kenburns{from{transform:scale(1);}to{transform:scale(1.06);}}
 .hero-content{position:relative;z-index:5;padding:180px 60px 0;max-width:760px;color:#fff;}
-.hero-content h1{font-size:64px;font-weight:800;line-height:1.08;margin-bottom:22px;
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  color:#ffd7e3;
+  font-size:14px;font-weight:600;letter-spacing:.3px;
+  margin-bottom:14px;
+  opacity:0;transform:translateY(20px);animation:heroUp 1s .15s forwards ease;
+}
+.hero-kicker:before{content:"";width:22px;height:2px;background:var(--pink);display:inline-block;}
+.hero-content h1{font-size:60px;font-weight:800;line-height:1.12;margin-bottom:22px;
   opacity:0;transform:translateY(30px);animation:heroUp 1s .3s forwards ease;}
+.hero-content h1 span{color:#ff7fa8;}
 .hero-content p{font-size:18px;line-height:1.6;color:#f0e4e8;margin-bottom:34px;max-width:560px;
   opacity:0;transform:translateY(30px);animation:heroUp 1s .5s forwards ease;}
 .hero-buttons{display:flex;align-items:center;gap:26px;
@@ -138,7 +152,7 @@ nav ul li a:hover:after{width:100%;}
 
 .stats-bar{
   position:relative;z-index:5;background:var(--bg-pale);
-  display:grid;grid-template-columns:repeat(5,1fr);
+  display:grid;grid-template-columns:repeat(4,1fr);
   padding:38px 60px;
 }
 .stats-bar.dark{background:var(--maroon);}
@@ -394,7 +408,8 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
   .container{padding:0 22px;}
   .nav-right .btn-primary{display:none;}
   .hamburger{display:flex;}
-  .hero-content h1{font-size:38px;}
+  .logo-tagline{display:none;}
+  .hero-content h1{font-size:32px;}
   .hero-content{padding:150px 24px 0;}
   .stats-bar{grid-template-columns:repeat(2,1fr);gap:20px;padding:28px 24px;}
   .stat:nth-child(2n):after{display:none;}
@@ -475,10 +490,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
   <div class="container">
     <a href="#" class="logo">
       <div class="mark"><img src="wena%20logo.png" alt="wena logo"></div>
-      <div class="logo-text">
-        <div class="top">Women Enabling</div>
-        <div class="bottom">New Ambitions</div>
-      </div>
+      <div class="logo-tagline">Building financial<br>confidence in women.</div>
     </a>
     <nav id="mainNav">
       <ul>
@@ -509,8 +521,9 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
   <div class="hero-arrow right" id="heroNext"><i class="fa-solid fa-chevron-right"></i></div>
 
   <div class="hero-content">
-    <h1>Take Control of<br>Your Money</h1>
-    <p>Financial awareness workshops helping Indian women become financially independent.</p>
+    <div class="hero-kicker">Take Control of Your Money</div>
+    <h1>Building <span>Financial Confidence</span> in Women.</h1>
+    <p>WENA is a social impact organization building financial confidence in women, with a mission to empower 1 million women across India.</p>
     <div class="hero-buttons">
       <a href="#contact" class="btn btn-primary">Book a Session</a>
       <a href="#" class="watch-story"><span class="play-circle"><i class="fa-solid fa-play"></i></span> Watch Story</a>
@@ -522,7 +535,6 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
 
 <div class="stats-bar">
   <div class="stat"><div class="num">1000+</div><div class="label">Women Reached</div></div>
-  <div class="stat"><div class="num">18+</div><div class="label">Years of Experience</div></div>
   <div class="stat"><div class="num">12+</div><div class="label">Workshops Delivered</div></div>
   <div class="stat"><div class="num">10+</div><div class="label">Organizations</div></div>
   <div class="stat"><div class="num">1 Million</div><div class="label">Our Mission</div></div>
@@ -532,9 +544,11 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
   <div class="container mission-wrap">
     <div class="mission-left reveal">
       <div class="eyebrow"><i class="fa-solid fa-bullseye"></i> OUR MISSION</div>
-      <h2>One Mission.<br><span class="hl">Millions of Financially<br>Confident Women.</span></h2>
-      <p>Every Indian woman deserves the confidence to understand money, make informed financial decisions, and build a secure future.</p>
-      <p>WENA simplifies finance through practical, jargon-free financial education that helps women build confidence in managing savings, investments, insurance, budgeting and long-term financial planning.</p>
+      <h2>Building <span class="hl">Financial Confidence<br>in Women.</span></h2>
+      <p>WENA is a social impact organization building financial confidence in women, with a mission to empower 1 million women across India — contributing to the vision of a Viksit Bharat.</p>
+      <p>We believe that when women understand money, make informed financial decisions, build wealth and participate confidently in the economy, families become stronger, communities become more resilient, and the nation grows stronger.</p>
+      <p>Through financial education, investor awareness, entrepreneurship, leadership development and meaningful community engagement, WENA equips women with the knowledge, skills and confidence to take greater control of their financial futures.</p>
+      <p>Our work brings together women, educational institutions, organizations, communities and changemakers to create greater awareness, opportunity and participation.</p>
       <div class="mission-btns">
         <a href="#who-serve" class="btn btn-outline">Learn About WENA <i class="fa-solid fa-arrow-right"></i></a>
         <a href="#contact" class="btn btn-primary">Book a Workshop</a>
@@ -557,51 +571,43 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
       <div class="who-viewport" id="whoViewport">
         <div class="who-track" id="whoTrack">
           <div class="who-slide reveal">
-            <div class="who-slide-icon"><i class="fa-solid fa-briefcase"></i></div>
-            <img src="Working%20women.png" alt="Working Women">
+            <div class="who-slide-icon"><i class="fa-solid fa-building"></i></div>
+            <img src="Corporate%20Organizations.png" alt="Corporates">
             <div class="who-slide-body">
-              <h4>1. Working Women</h4>
-              <p>Invest your salary wisely. Build long-term wealth. Achieve financial independence.</p>
-            </div>
-          </div>
-          <div class="who-slide reveal">
-            <div class="who-slide-icon"><i class="fa-solid fa-house"></i></div>
-            <img src="Homemakers.png" alt="Homemakers">
-            <div class="who-slide-body">
-              <h4>2. Homemakers</h4>
-              <p>Manage household finances confidently. Plan savings. Build a secure future for your family.</p>
+              <h4>1. Corporates</h4>
+              <p>Employee financial wellness programs that help teams save, invest and plan with confidence.</p>
             </div>
           </div>
           <div class="who-slide reveal">
             <div class="who-slide-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-            <img src="College%20Students.png" alt="College Students">
+            <img src="College%20Students.png" alt="Universities">
             <div class="who-slide-body">
-              <h4>3. College Students</h4>
-              <p>Develop smart financial habits before your first paycheck. Understand investing, budgeting and financial planning early.</p>
+              <h4>2. Universities</h4>
+              <p>Financial literacy for students before their first paycheck — budgeting, saving and investing made simple.</p>
             </div>
           </div>
           <div class="who-slide reveal">
-            <div class="who-slide-icon"><i class="fa-solid fa-store"></i></div>
-            <img src="Women%20Entrepreneurs.png" alt="Women Entrepreneurs">
+            <div class="who-slide-icon"><i class="fa-solid fa-bullseye"></i></div>
+            <img src="2nd%20Page.png" alt="Institutions">
             <div class="who-slide-body">
-              <h4>4. Women Entrepreneurs</h4>
-              <p>Separate business and personal finances. Manage cash flow. Scale confidently.</p>
+              <h4>3. Institutions</h4>
+              <p>Customized financial awareness programs for institutions looking to build lasting financial capability.</p>
             </div>
           </div>
           <div class="who-slide reveal">
             <div class="who-slide-icon"><i class="fa-solid fa-people-group"></i></div>
-            <img src="NGOs%20%26%20Self%20Help%20Groups.webp" alt="NGOs and Self Help Groups">
+            <img src="NGOs%20%26%20Self%20Help%20Groups.webp" alt="NGOs">
             <div class="who-slide-body">
-              <h4>5. NGOs &amp; Self Help Groups</h4>
-              <p>Community-based financial literacy workshops designed specifically for women beneficiaries.</p>
+              <h4>4. NGOs</h4>
+              <p>Community-based financial literacy workshops designed specifically for NGO beneficiaries.</p>
             </div>
           </div>
           <div class="who-slide reveal">
-            <div class="who-slide-icon"><i class="fa-solid fa-building"></i></div>
-            <img src="Corporate%20Organizations.png" alt="Corporate Organizations">
+            <div class="who-slide-icon"><i class="fa-solid fa-users"></i></div>
+            <img src="Women%20Entrepreneurs.png" alt="Communities">
             <div class="who-slide-body">
-              <h4>6. Corporate Organizations</h4>
-              <p>Employee financial wellness programs for organizations.</p>
+              <h4>5. Communities</h4>
+              <p>Grassroots financial awareness sessions that help community groups build shared financial confidence.</p>
             </div>
           </div>
         </div>
@@ -697,7 +703,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
     <div class="founder-right reveal">
       <span class="badge"><i class="fa-solid fa-user"></i> FOUNDER</span>
       <h2>Meet <span>Nitu Sharma</span></h2>
-      <p class="founder-sub">Founder, Women Enabling New Ambitions (WENA)</p>
+      <p class="founder-sub">Founder, WENA</p>
       <p class="founder-quote">Every Indian woman deserves the confidence to understand, manage and grow her money.</p>
       <p class="desc">Through practical financial education, workshops and community programs, WENA aims to empower one million women across India with lifelong financial confidence.</p>
       <div class="signature">Nitu Sharma</div>
@@ -770,7 +776,8 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
       <div class="footer-brand">
         <div class="mark" style="height:50px;display:flex;align-items:center;flex-shrink:0;background:#fff;padding:6px 10px;border-radius:10px;"><img src="wena%20logo.png" alt="WENA" style="height:100%;width:auto;object-fit:contain;"></div>
         <div>
-          <p>Empowering one million Indian women through financial education.</p>
+          <div class="footer-logo-tagline" style="font-weight:700;color:#fff;font-size:13px;margin-top:0;">Building financial confidence in women.</div>
+          <p>WENA is a social impact organization building financial confidence in women, with a mission to empower 1 million women across India.</p>
         </div>
       </div>
       <div class="footer-col">
@@ -803,8 +810,8 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
       </div>
     </div>
     <div class="footer-bottom">
-      <div>© 2026 Women Enabling New Ambitions (WENA) | All rights reserved.</div>
-      <div>One Mission. Millions of Financially Confident Women. <i class="fa-solid fa-heart" style="color:var(--pink);"></i></div>
+      <div>© 2026 WENA | All rights reserved.</div>
+      <div>Building financial confidence in women. <i class="fa-solid fa-heart" style="color:var(--pink);"></i></div>
     </div>
   </div>
 </footer>
@@ -830,7 +837,6 @@ const processData = [
   {icon:"fa-sliders", title:"Customize the Session", desc:"We design a session that is relevant, practical and aligned with the audience."},
   {icon:"fa-chalkboard-user", title:"Interactive Financial Workshop", desc:"Engaging, activity-based learning with real-life examples and discussions."},
   {icon:"fa-clipboard-check", title:"Knowledge Assessment", desc:"We assess understanding through quizzes and interactive evaluations."},
-  {icon:"fa-award", title:"Certificates for Participants", desc:"Participants receive certificates recognizing their learning and progress."},
 {icon:"fa-chart-simple", title:"Impact Report for Organization", desc:"We provide a detailed impact report for organizational and internal records."}
 ];
 
