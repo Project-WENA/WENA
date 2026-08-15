@@ -511,25 +511,15 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
 <section class="hero" id="hero">
   <div class="hero-slides" id="heroSlides">
     <div class="hero-slide active" style="background-image:url('1pp.png')"></div>
-    <div class="hero-slide" style="background-image:url('2pp.png')"></div>
-    <div class="hero-slide" style="background-image:url('3pp.png')"></div>
-    <div class="hero-slide" style="background-image:url('4pp.png')"></div>
-    <div class="hero-slide" style="background-image:url('5pp.png')"></div>
   </div>
-  <div class="hero-arrow left" id="heroPrev"><i class="fa-solid fa-chevron-left"></i></div>
-  <div class="hero-arrow right" id="heroNext"><i class="fa-solid fa-chevron-right"></i></div>
 
   <div class="hero-content">
-    <div class="hero-kicker">Take Control of Your Money</div>
     <h1>Building <span>Financial Confidence</span> in Women.</h1>
-    <p>WENA is a social impact organization building financial confidence in women, with a mission to empower 1 million women across India.</p>
     <div class="hero-buttons">
       <a href="#contact" class="btn btn-primary">Book a Session</a>
       <a href="#" class="watch-story"><span class="play-circle"><i class="fa-solid fa-play"></i></span> Watch Story</a>
     </div>
   </div>
-
-  <div class="hero-dots" id="heroDots"></div>
 </section>
 
 <div class="stats-bar">
@@ -543,7 +533,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
   <div class="container mission-wrap">
     <div class="mission-left reveal">
       <div class="eyebrow"><i class="fa-solid fa-bullseye"></i> OUR MISSION</div>
-      <h2>Building <span class="hl">Financial Confidence<br>in Women.</span></h2>
+      <h2><span class="hl">To Empower One Million Women<br>Across India.</span></h2>
       <p>WENA is a social impact organization building financial confidence in women, with a mission to empower 1 million women across India — contributing to the vision of a Viksit Bharat.</p>
       <p>We believe that when women understand money, make informed financial decisions, build wealth and participate confidently in the economy, families become stronger, communities become more resilient, and the nation grows stronger.</p>
       <p>Through financial education, investor awareness, entrepreneurship, leadership development and meaningful community engagement, WENA equips women with the knowledge, skills and confidence to take greater control of their financial futures.</p>
@@ -1008,44 +998,6 @@ testData.forEach(t=>{
   `;
   testGrid.appendChild(card);
 });
-
-const heroSlides = document.querySelectorAll('.hero-slide');
-const heroDotsWrap = document.getElementById('heroDots');
-let currentSlide = 0;
-let heroTimer = null;
-
-heroSlides.forEach((_, i)=>{
-  const dot = document.createElement('div');
-  dot.className = 'hero-dot' + (i===0 ? ' active' : '');
-  dot.addEventListener('click', ()=> goToSlide(i));
-  heroDotsWrap.appendChild(dot);
-});
-const heroDots = document.querySelectorAll('.hero-dot');
-
-function goToSlide(idx){
-  heroSlides[currentSlide].classList.remove('active');
-  heroDots[currentSlide].classList.remove('active');
-  currentSlide = (idx + heroSlides.length) % heroSlides.length;
-  heroSlides[currentSlide].classList.add('active');
-  heroDots[currentSlide].classList.add('active');
-}
-function nextSlide(){ goToSlide(currentSlide + 1); }
-function prevSlide(){ goToSlide(currentSlide - 1); }
-
-function startAutoplay(){
-  heroTimer = setInterval(nextSlide, 6000);
-}
-function stopAutoplay(){
-  clearInterval(heroTimer);
-}
-
-document.getElementById('heroNext').addEventListener('click', ()=>{ nextSlide(); stopAutoplay(); startAutoplay(); });
-document.getElementById('heroPrev').addEventListener('click', ()=>{ prevSlide(); stopAutoplay(); startAutoplay(); });
-
-const heroSection = document.getElementById('hero');
-heroSection.addEventListener('mouseenter', stopAutoplay);
-heroSection.addEventListener('mouseleave', startAutoplay);
-startAutoplay();
 
 window.addEventListener('load', ()=>{
   const veil = document.getElementById('pageVeil');
