@@ -193,12 +193,13 @@ section{padding:100px 0;position:relative;}
 
 .mission{background:linear-gradient(180deg,#ffffff 0%,var(--bg-light) 100%);}
 .mission-wrap{display:block;}
-.mission-left{max-width:840px;margin:0 auto;text-align:center;}
-.mission-left .eyebrow{margin:0 auto 22px;}
-.mission-left h2{font-size:46px;font-weight:800;line-height:1.2;margin-bottom:26px;}
+.mission-left{max-width:100%;margin:0;text-align:left;}
+.mission-left .eyebrow{margin:0 0 22px;}
+.mission-left h2{font-size:48px;font-weight:800;line-height:1.2;margin-bottom:36px;max-width:1000px;}
 .mission-left h2 .hl{color:var(--pink);}
-.mission-left p{color:var(--text-gray);margin-bottom:18px;line-height:1.8;font-size:16px;text-align:left;}
-.mission-btns{display:flex;gap:16px;margin-top:30px;justify-content:center;}
+.mission-body{display:grid;grid-template-columns:1fr 1fr;gap:20px 60px;}
+.mission-left p{color:var(--text-gray);margin-bottom:0;line-height:1.8;font-size:16px;text-align:left;}
+.mission-btns{display:flex;gap:16px;margin-top:36px;justify-content:flex-start;}
 
 .who-serve{background:var(--white);padding-top:70px;}
 .who-header{text-align:center;margin-bottom:50px;}
@@ -419,6 +420,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
   .who-arrow{width:36px;height:36px;font-size:13px;}
   .who-slide{width:100%;}
   .corp-checks{grid-template-columns:1fr;}
+  .mission-body{grid-template-columns:1fr;gap:16px;}
   .footer-grid{grid-template-columns:1fr;}
   .nl-wrap{flex-direction:column;align-items:flex-start;}
   .nl-form{max-width:100%;width:100%;}
@@ -524,7 +526,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
   <div class="stat"><div class="num">1000+</div><div class="label">Women Reached</div></div>
   <div class="stat"><div class="num">12+</div><div class="label">Workshops Delivered</div></div>
   <div class="stat"><div class="num">10+</div><div class="label">Organizations</div></div>
-  <div class="stat"><div class="num">1 Million</div><div class="label">Our Mission</div></div>
+  <div class="stat"><div class="num">1M Women</div><div class="label">Our Mission</div></div>
 </div>
 
 <section class="mission" id="mission">
@@ -532,10 +534,12 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
     <div class="mission-left reveal">
       <div class="eyebrow"><i class="fa-solid fa-bullseye"></i> OUR MISSION</div>
       <h2><span class="hl">To Empower One Million Women<br>Across India.</span></h2>
-      <p>WENA is a social impact organization building financial confidence in women, with a mission to empower 1 million women across India — contributing to the vision of a Viksit Bharat.</p>
-      <p>We believe that when women understand money, make informed financial decisions, build wealth and participate confidently in the economy, families become stronger, communities become more resilient, and the nation grows stronger.</p>
-      <p>Through financial education, investor awareness, entrepreneurship, leadership development and meaningful community engagement, WENA equips women with the knowledge, skills and confidence to take greater control of their financial futures.</p>
-      <p>Our work brings together women, educational institutions, organizations, communities and changemakers to create greater awareness, opportunity and participation.</p>
+      <div class="mission-body">
+        <p>WENA is a social impact organization building financial confidence in women, with a mission to empower 1 million women across India — contributing to the vision of a Viksit Bharat.</p>
+        <p>We believe that when women understand money, make informed financial decisions, build wealth and participate confidently in the economy, families become stronger, communities become more resilient, and the nation grows stronger.</p>
+        <p>Through financial education, investor awareness, entrepreneurship, leadership development and meaningful community engagement, WENA equips women with the knowledge, skills and confidence to take greater control of their financial futures.</p>
+        <p>Our work brings together women, educational institutions, organizations, communities and changemakers to create greater awareness, opportunity and participation.</p>
+      </div>
       <div class="mission-btns">
         <a href="#who-serve" class="btn btn-outline">Learn About WENA <i class="fa-solid fa-arrow-right"></i></a>
         <a href="#contact" class="btn btn-primary">Book a Workshop</a>
@@ -572,7 +576,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
           </div>
           <div class="who-slide reveal">
             <div class="who-slide-icon"><i class="fa-solid fa-bullseye"></i></div>
-            <img src="2nd%20Page.png" alt="Institutions">
+            <img src="NGOs%20%26%20Self%20Help%20Groups.webp" alt="Institutions">
             <div class="who-slide-body">
               <h4>3. Institutions</h4>
               <p>Customized financial awareness programs for institutions looking to build lasting financial capability.</p>
