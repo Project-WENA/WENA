@@ -1,0 +1,43 @@
+backend:
+  name: github
+  repo: Project-WENA/WENA
+  branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Cover Image", name: "image", widget: "image", required: false }
+      - { label: "Excerpt", name: "excerpt", widget: "text", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "continue_learning"
+    label: "Continue Learning (Homepage Videos)"
+    files:
+      - name: "videos"
+        label: "3 YouTube Videos"
+        file: "content/continue-learning.json"
+        fields:
+          - label: "Left Video"
+            name: "left"
+            widget: "object"
+            fields:
+              - { label: "YouTube URL", name: "youtube_url", widget: "string" }
+          - label: "Center Video"
+            name: "center"
+            widget: "object"
+            fields:
+              - { label: "YouTube URL", name: "youtube_url", widget: "string" }
+          - label: "Right Video"
+            name: "right"
+            widget: "object"
+            fields:
+              - { label: "YouTube URL", name: "youtube_url", widget: "string" }
