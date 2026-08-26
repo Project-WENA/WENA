@@ -46,9 +46,6 @@ nav a:hover{opacity:1;}
 .art-body img{max-width:100%;border-radius:10px;margin:16px 0;}
 .art-body blockquote{border-left:3px solid var(--pink);padding-left:18px;color:var(--text-gray);font-style:italic;margin:20px 0;}
 
-.comments-section{border-top:1px solid var(--bg-pale);padding-top:36px;padding-bottom:70px;}
-.comments-section h3{font-size:20px;margin-bottom:18px;}
-
 .state-msg{text-align:center;padding:60px 0;color:var(--text-gray);}
 .state-msg i{font-size:30px;color:var(--pink);margin-bottom:14px;display:block;}
 
@@ -90,7 +87,6 @@ footer{background:var(--maroon-dark);color:#fff;padding:34px 0;text-align:center
 const GH_OWNER = "Project-WENA";
    const GH_REPO  = "WENA";
 const GH_BRANCH = "main";
-const DISQUS_SHORTNAME = "REPLACE_ME_DISQUS_SHORTNAME"; // from disqus.com dashboard
 // ============================================================
 
 function parseFrontmatter(raw){
@@ -110,18 +106,6 @@ function parseFrontmatter(raw){
 function getSlugFromUrl(){
   const params = new URLSearchParams(window.location.search);
   return params.get('slug');
-}
-
-function loadDisqus(slug, title){
-  window.disqus_config = function () {
-    this.page.url = window.location.href;
-    this.page.identifier = slug;
-    this.page.title = title;
-  };
-  const d = document.createElement('script');
-  d.src = `https://${DISQUS_SHORTNAME}.disqus.com/embed.js`;
-  d.setAttribute('data-timestamp', +new Date());
-  document.body.appendChild(d);
 }
 
 async function loadArticle(){
@@ -148,13 +132,7 @@ async function loadArticle(){
       </div>
       ${meta.image ? `<div class="art-cover"><img src="${meta.image}" alt="${meta.title || ''}"></div>` : ''}
       <div class="art-body">${marked.parse(body)}</div>
-      <div class="comments-section">
-        <h3>Comments</h3>
-        <div id="disqus_thread"></div>
-      </div>
     `;
-
-    loadDisqus(slug, meta.title || 'WENA Article');
 
   }catch(err){
     wrap.innerHTML = `<div class="state-msg"><i class="fa-solid fa-triangle-exclamation"></i>This article couldn't be found.</div>`;
