@@ -1,7 +1,7 @@
 ---
 title: Where to invest first INR 10,000
 date: 2026-08-20T16:30
-image: /assets/uploads/pasted-image-1787223739282.png
+image: /assets/uploads/Screenshot 2026-08-26 at 2.13.28 PM.png
 excerpt: ''
 ---
 
