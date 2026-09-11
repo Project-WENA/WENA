@@ -1132,6 +1132,30 @@ renderContinueLearning();
 .promo-modal-footer{display:flex;justify-content:center;margin-top:14px;}
 </style>
 <script>
+const OUR_STORY_EMBED_URL = "https://play.gumlet.io/embed/6aa41b3407a6f8ff2978e54c";
+const ourStoryBtn = document.getElementById('ourStoryBtn');
+const ourStoryModal = document.getElementById('ourStoryModal');
+const ourStoryIframe = document.getElementById('ourStoryIframe');
+function openOurStory(){
+  const sep = OUR_STORY_EMBED_URL.includes('?') ? '&' : '?';
+  ourStoryIframe.src = OUR_STORY_EMBED_URL + sep + 'autoplay=1';
+  ourStoryModal.classList.add('open');
+}
+function closeOurStory(){
+  ourStoryModal.classList.remove('open');
+  ourStoryIframe.src = '';
+}
+ourStoryBtn.addEventListener('click', openOurStory);
+document.getElementById('ourStoryOverlay').addEventListener('click', closeOurStory);
+document.getElementById('ourStoryClose').addEventListener('click', closeOurStory);
+</script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {});
+  }
+</script>
+<script>
 const WELCOME_VIDEO_EMBED_URL = "https://play.gumlet.io/embed/6aa435f507a6f8ff29796e39";
 const welcomeModal = document.getElementById('welcomeVideoModal');
 const welcomeIframe = document.getElementById('welcomeVideoIframe');
