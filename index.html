@@ -1120,57 +1120,17 @@ renderContinueLearning();
     </div>
   </div>
 </div>
-      <div class="video-modal-overlay" id="welcomeVideoOverlay"></div>
-      <div class="promo-modal-box">
-        <button type="button" class="promo-modal-x" id="welcomeVideoClose">&times;</button>
-        <div class="promo-video-frame">
-          <iframe id="welcomeVideoIframe" src="" title="WENA Welcome Video" frameborder="0"
-            referrerpolicy="origin"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write"
-            allowfullscreen></iframe>
-        </div>
-        <div class="promo-modal-footer">
-          <a href="#contact" class="btn btn-primary" id="welcomeVideoCTA">Book a Session <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-      </div>
+<style>
 .video-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;}
 .video-modal.open{display:flex;}
-  .promo-modal-box{background:#fff;border-radius:20px;max-width:640px;width:100%;padding:26px;position:relative;box-shadow:0 40px 80px rgba(0,0,0,0.35);}
-.promo-badge{display:inline-block;background:var(--maroon-dark);color:#fff;font-weight:700;font-size:13px;padding:10px 18px;border-radius:10px;margin-bottom:16px;letter-spacing:.5px;}
+.video-modal-overlay{position:absolute;inset:0;background:rgba(10,5,8,0.85);}
+.promo-modal-box{background:#fff;border-radius:20px;max-width:820px;width:92%;padding:12px;position:relative;box-shadow:0 40px 80px rgba(0,0,0,0.4);}
+.promo-modal-x{position:absolute;top:-48px;right:0;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.5);color:#fff;font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.promo-modal-x:hover{background:var(--pink);border-color:var(--pink);}
 .promo-video-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;}
 .promo-video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
-.promo-modal-footer{display:flex;justify-content:flex-end;gap:12px;margin-top:22px;border-top:1px solid #f1dde4;padding-top:18px;flex-wrap:wrap;}
-.video-modal-overlay{position:absolute;inset:0;background:rgba(10,5,8,0.85);}
-.video-modal-box{position:relative;width:100%;max-width:900px;z-index:2;}
-.video-modal-frame{position:relative;width:100%;padding-top:56.25%;border-radius:16px;overflow:hidden;}
-.video-modal-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
-.video-modal-close{position:absolute;top:-44px;right:0;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-.video-modal-close:hover{background:var(--pink);}
+.promo-modal-footer{display:flex;justify-content:center;margin-top:14px;}
 </style>
-<script>
-const OUR_STORY_EMBED_URL = "https://play.gumlet.io/embed/6aa41b3407a6f8ff2978e54c";
-const ourStoryBtn = document.getElementById('ourStoryBtn');
-const ourStoryModal = document.getElementById('ourStoryModal');
-const ourStoryIframe = document.getElementById('ourStoryIframe');
-function openOurStory(){
-  const sep = OUR_STORY_EMBED_URL.includes('?') ? '&' : '?';
-  ourStoryIframe.src = OUR_STORY_EMBED_URL + sep + 'autoplay=1';
-  ourStoryModal.classList.add('open');
-}
-function closeOurStory(){
-  ourStoryModal.classList.remove('open');
-  ourStoryIframe.src = '';
-}
-ourStoryBtn.addEventListener('click', openOurStory);
-document.getElementById('ourStoryOverlay').addEventListener('click', closeOurStory);
-document.getElementById('ourStoryClose').addEventListener('click', closeOurStory);
-</script>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {});
-  }
-</script>
 <script>
 const WELCOME_VIDEO_EMBED_URL = "https://play.gumlet.io/embed/6aa435f507a6f8ff29796e39";
 const welcomeModal = document.getElementById('welcomeVideoModal');
