@@ -505,7 +505,8 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
       </ul>
     </nav>
     <div class="nav-right">
-      <a href="#contact" class="btn btn-primary">Book a Session</a>
+      <a href="#contact" class="btn btn-primary">Book a Session</a> 
+      <button type="button" class="btn btn-outline" id="ourStoryBtn"><i class="fa-solid fa-circle-play"></i> Our Story</button>
       <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
     </div>
   </div>
@@ -1089,6 +1090,44 @@ wireFormspreeForm('contactForm', 'contactStatus', 'Message sent! We will get bac
 wireFormspreeForm('newsletterForm', 'newsletterStatus', 'Thanks for subscribing!');
 
 renderContinueLearning();
+</script>
+  <div class="video-modal" id="ourStoryModal">
+  <div class="video-modal-overlay" id="ourStoryOverlay"></div>
+  <div class="video-modal-box">
+    <button type="button" class="video-modal-close" id="ourStoryClose">&times;</button>
+    <div class="video-modal-frame">
+      <iframe id="ourStoryIframe" src="" title="WENA Our Story" frameborder="0"
+        allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+<style>
+.video-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;}
+.video-modal.open{display:flex;}
+.video-modal-overlay{position:absolute;inset:0;background:rgba(10,5,8,0.85);}
+.video-modal-box{position:relative;width:100%;max-width:900px;z-index:2;}
+.video-modal-frame{position:relative;width:100%;padding-top:56.25%;border-radius:16px;overflow:hidden;}
+.video-modal-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.video-modal-close{position:absolute;top:-44px;right:0;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.video-modal-close:hover{background:var(--pink);}
+</style>
+<script>
+const OUR_STORY_EMBED_URL = "https://play.gumlet.io/embed/6aa41b3407a6f8ff2978e54c";
+const ourStoryBtn = document.getElementById('ourStoryBtn');
+const ourStoryModal = document.getElementById('ourStoryModal');
+const ourStoryIframe = document.getElementById('ourStoryIframe');
+function openOurStory(){
+  const sep = OUR_STORY_EMBED_URL.includes('?') ? '&' : '?';
+  ourStoryIframe.src = OUR_STORY_EMBED_URL + sep + 'autoplay=1';
+  ourStoryModal.classList.add('open');
+}
+function closeOurStory(){
+  ourStoryModal.classList.remove('open');
+  ourStoryIframe.src = '';
+}
+ourStoryBtn.addEventListener('click', openOurStory);
+document.getElementById('ourStoryOverlay').addEventListener('click', closeOurStory);
+document.getElementById('ourStoryClose').addEventListener('click', closeOurStory);
 </script>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
