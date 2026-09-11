@@ -1108,7 +1108,7 @@ renderContinueLearning();
 <div class="video-modal" id="welcomeVideoModal">
   <div class="video-modal-overlay" id="welcomeVideoOverlay"></div>
   <div class="promo-modal-box">
-    <div class="promo-badge">WATCH OUR STORY</div>
+    <button type="button" class="promo-modal-x" id="welcomeVideoClose">&times;</button>
     <div class="promo-video-frame">
       <iframe id="welcomeVideoIframe" src="" title="WENA Welcome Video" frameborder="0"
         referrerpolicy="origin"
@@ -1117,21 +1117,22 @@ renderContinueLearning();
     </div>
     <div class="promo-modal-footer">
       <a href="#contact" class="btn btn-primary" id="welcomeVideoCTA">Book a Session <i class="fa-solid fa-arrow-right"></i></a>
-      <button type="button" class="btn btn-dark" id="welcomeVideoClose">Close <i class="fa-solid fa-xmark"></i></button>
     </div>
   </div>
 </div>
-  <div class="video-modal-box">
-    <button type="button" class="video-modal-close" id="welcomeVideoClose">&times;</button>
-    <div class="video-modal-frame">
-      <iframe id="welcomeVideoIframe" src="" title="WENA Welcome Video" frameborder="0"
-        referrerpolicy="origin"
-        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write"
-        allowfullscreen></iframe>
-    </div>
-  </div>
-</div>
-<style>
+      <div class="video-modal-overlay" id="welcomeVideoOverlay"></div>
+      <div class="promo-modal-box">
+        <button type="button" class="promo-modal-x" id="welcomeVideoClose">&times;</button>
+        <div class="promo-video-frame">
+          <iframe id="welcomeVideoIframe" src="" title="WENA Welcome Video" frameborder="0"
+            referrerpolicy="origin"
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write"
+            allowfullscreen></iframe>
+        </div>
+        <div class="promo-modal-footer">
+          <a href="#contact" class="btn btn-primary" id="welcomeVideoCTA">Book a Session <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
 .video-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;}
 .video-modal.open{display:flex;}
   .promo-modal-box{background:#fff;border-radius:20px;max-width:640px;width:100%;padding:26px;position:relative;box-shadow:0 40px 80px rgba(0,0,0,0.35);}
