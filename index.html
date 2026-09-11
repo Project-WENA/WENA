@@ -1170,5 +1170,27 @@ document.getElementById('ourStoryClose').addEventListener('click', closeOurStory
     window.netlifyIdentity.on("init", user => {});
   }
 </script>
+<script>
+const WELCOME_VIDEO_EMBED_URL = "https://play.gumlet.io/embed/6aa435f507a6f8ff29796e39";
+const welcomeModal = document.getElementById('welcomeVideoModal');
+const welcomeIframe = document.getElementById('welcomeVideoIframe');
+
+function openWelcomeVideo(){
+  welcomeIframe.src = WELCOME_VIDEO_EMBED_URL + "?autoplay=true&background=false&loop=false&disable_player_controls=false";
+  welcomeModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeWelcomeVideo(){
+  welcomeModal.classList.remove('open');
+  welcomeIframe.src = '';
+  document.body.style.overflow = '';
+}
+document.getElementById('welcomeVideoOverlay').addEventListener('click', closeWelcomeVideo);
+document.getElementById('welcomeVideoClose').addEventListener('click', closeWelcomeVideo);
+
+window.addEventListener('load', ()=>{
+  setTimeout(openWelcomeVideo, 600);
+});
+</script>
 </body>
 </html>
