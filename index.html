@@ -291,7 +291,7 @@ section{padding:100px 0;position:relative;}
 .corp-btns{display:flex;gap:16px;flex-wrap:wrap;}
 
 .testimonials{background:var(--bg-light);}
-.test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,380px));justify-content:center;gap:22px;margin-top:50px;}
+.test-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:50px;}
 .test-card{background:#fff;border-radius:16px;padding:26px;transition:all var(--transition);position:relative;}
 .test-card:hover{transform:translateY(-10px) scale(1.015);box-shadow:0 24px 50px rgba(92,16,41,0.16);}
 .test-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;position:relative;}
@@ -393,7 +393,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:60px 0 24px;}
 .to-top:hover{background:var(--pink-dark);transform:translateY(-4px);}
 
 @media(max-width:1100px){
-  .learn-grid, .cl-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .test-grid, .learn-grid, .cl-grid{grid-template-columns:repeat(2,1fr)!important;}
   .who-slide{width:calc((100% - 24px)/2);}
   .corp-checks{grid-template-columns:repeat(2,1fr);}
   .mission-wrap, .corp-wrap, .founder-wrap, .contact-wrap{grid-template-columns:1fr!important;}
@@ -819,7 +819,13 @@ const processData = [
 
 const testData = [
   {name:"Renu Gaur", role:"Principal, SD Public School", loc:"Delhi", photo:"assets/testimonial_renu_gaur.jpg",
-   text:"Nitu's warmth and her words made the session truly welcoming. On behalf of the staff of SD Public School, I thank her for encouraging women to invest and for motivating them through her efforts. It was a privilege to attend such an amazing session, and I hope our teachers will learn from it and use her advice in their lives."}
+   text:"Nitu's warmth and her words made the session truly welcoming. On behalf of the staff of SD Public School, I thank her for encouraging women to invest and for motivating them through her efforts. It was a privilege to attend such an amazing session, and I hope our teachers will learn from it and use her advice in their lives."},
+  {name:"Priya Sharma", role:"Working Professional", loc:"Bengaluru", img:"assets/avatar_priya.jpg",
+   text:"Before WENA, I used to save blindly. Now I understand budgeting, investing and goal planning. I started my SIP and emergency fund. I feel more confident and in control of my financial future."},
+  {name:"Ritika Jain", role:"Entrepreneur", loc:"Jaipur", img:"assets/avatar_ritika.jpg",
+   text:"WENA helped me separate my business and personal finances. I now track cash flow, plan taxes and invest profits wisely. My business and confidence—both have grown!"},
+  {name:"Ananya Iyer", role:"MBA Student", loc:"Chennai", img:"assets/avatar_ananya.jpg",
+   text:"The workshops are simple, practical and easy to understand. I learned about mutual funds, SIPs and how to build wealth early. This knowledge is priceless and will stay with me forever."}
 ];
 
 // Extracts an 11-char YouTube video ID from any common YouTube URL format.
