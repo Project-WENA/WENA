@@ -288,3 +288,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .form{padding:24px;}
   .brand-text small{display:none;}
 }
+
+/* Programs v2: versions and stages */
+.versions{margin:8px 0 8px;}
+.version{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:6px;}
+.version .v-who{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber-text);}
+.version strong{font-family:'Poppins',sans-serif;font-size:19px;color:var(--deep);}
+.version .v-prob{font-size:15px;color:var(--muted);}
+.seg.alt .version,.seg.alt .stage{background:var(--bg);}
+.stage{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:10px;}
+.stage-n{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--blue);}
+.stage h4{font-size:19px;}
+.stage p{font-size:15px;color:var(--muted);}
+.stage ul{padding-left:20px;font-size:15px;display:flex;flex-direction:column;gap:2px;}
+.stage .more{margin-top:auto;font-weight:600;text-decoration:none;}
+.seg .box-label{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--blue);margin-bottom:10px;}
