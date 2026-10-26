@@ -9,8 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 :root{
-  --pink:#d81159; --pink-dark:#b30d4a; --maroon:#5c1029; --maroon-dark:#3a0a1a;
-  --bg-light:#fdf1f4; --bg-pale:#fbe3ea; --text-dark:#1c1c1e; --text-gray:#5c5c63; --white:#ffffff;
+  --pink:#0062A0; --pink-dark:#0B2D4A; --maroon:#12405F; --maroon-dark:#0B2D4A; --bg-light:#FBF8F3; --bg-pale:#E8F1F9; --text-dark:#1c1c1e; --text-gray:#5c5c63; --white:#ffffff;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -24,11 +23,11 @@ a{text-decoration:none;color:inherit;}
 .btn-outline{background:transparent;border:1.5px solid var(--pink);color:var(--pink);}
 .btn-outline:hover{background:var(--pink);color:#fff;}
 
-header{background:var(--maroon-dark);padding:16px 0;}
+header{background:#fff;border-bottom:1px solid #ECE6DC;padding:10px 0;}
 header .container{display:flex;align-items:center;justify-content:space-between;}
-.logo{display:flex;align-items:center;gap:12px;color:#fff;}
-.logo .mark img{height:42px;width:auto;object-fit:contain;}
-nav a{color:#fff;font-size:14px;opacity:.9;margin-left:26px;}
+.logo{display:flex;align-items:center;gap:12px;color:#0B2D4A;}
+.logo .mark img{height:52px;width:auto;object-fit:contain;}
+nav a{color:#1C1C1E;font-size:14px;opacity:.9;margin-left:26px;}
 nav a:hover{opacity:1;}
 
 .page-head{padding:70px 0 40px;text-align:center;}
@@ -37,9 +36,9 @@ nav a:hover{opacity:1;}
 .page-head p{color:var(--text-gray);font-size:16px;}
 
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding:0 0 90px;}
-.blog-card{background:#fff;border-radius:16px;overflow:hidden;transition:all .35s ease;box-shadow:0 6px 18px rgba(92,16,41,0.06);}
-.blog-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(92,16,41,0.14);}
-.blog-card .img-wrap{height:190px;background:linear-gradient(135deg,var(--bg-pale),#f6c9d6);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.blog-card{background:#fff;border-radius:16px;overflow:hidden;transition:all .35s ease;box-shadow:0 6px 18px rgba(11,45,74,0.06);}
+.blog-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(11,45,74,0.14);}
+.blog-card .img-wrap{height:190px;background:linear-gradient(135deg,var(--bg-pale),#C8D7E6);display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .blog-card .img-wrap img{width:100%;height:100%;object-fit:cover;}
 .blog-card .img-wrap i{font-size:32px;color:var(--pink);opacity:.5;}
 .blog-body{padding:22px;}
@@ -62,10 +61,12 @@ footer{background:var(--maroon-dark);color:#fff;padding:34px 0;text-align:center
 <header>
   <div class="container">
     <a href="index.html" class="logo">
-      <div class="mark"><img src="wena logo.png" alt="wena logo"></div>
+      <div class="mark"><img src="wena logo.png" alt="WENA logo"></div>
     </a>
     <nav>
       <a href="index.html">Home</a>
+      <a href="programs.html">Programs</a>
+      <a href="store.html">Store</a>
       <a href="blog.html">Blog</a>
       <a href="index.html#contact">Contact</a>
     </nav>
@@ -84,7 +85,7 @@ footer{background:var(--maroon-dark);color:#fff;padding:34px 0;text-align:center
   </div>
 </div>
 
-<footer>© 2026 WENA | All rights reserved.</footer>
+<footer>© 2026 WENA — Wellness Education Network &amp; Alliance · Spreading Financial Wellness across India · <a href="mailto:reachout@wena.co.in" style="color:#fff">reachout@wena.co.in</a></footer>
 
 <script>
 // ============================================================
