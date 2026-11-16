@@ -155,4 +155,30 @@
     modal.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', close); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
   }
+// Testimonials carousel
+(function () {
+var wrap = document.querySelector('.testi-carousel');
+if (!wrap) return;
+var track = wrap.querySelector('.grid');
+var prev = wrap.querySelector('.testi-prev');
+var next = wrap.querySelector('.testi-next');
+if (!track || !prev || !next) return;
+function cardStep() {
+var card = track.querySelector('.testi');
+if (!card) return 0;
+var gap = parseFloat(getComputedStyle(track).gap) || 20;
+return card.getBoundingClientRect().width + gap;
+}
+function updateArrows() {
+var max = track.scrollWidth - track.clientWidth - 2;
+prev.disabled = track.scrollLeft <= 2;
+next.disabled = track.scrollLeft >= max;
+}
+prev.addEventListener('click', function () { track.scrollBy({ left: -cardStep(), behavior: 'smooth' }); });
+next.addEventListener('click', function () { track.scrollBy({ left: cardStep(), behavior: 'smooth' }); });
+track.addEventListener('scroll', updateArrows);
+window.addEventListener('resize', updateArrows);
+updateArrows();
+})();
+
 })();
