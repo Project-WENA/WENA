@@ -17,6 +17,14 @@ OG_IMAGE = SITE + '/assets/og-image.jpg'
 LOGO = SITE + '/assets/logo-360.png'
 ADSENSE = ('<meta name="google-adsense-account" content="ca-pub-2129249319707125">\n'
            '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2129249319707125" crossorigin="anonymous"></script>')
+GA_TAG = ('''<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y8RV3CQ234"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y8RV3CQ234');
+</script>''')
 FULL = 'Wellness Education Network & Alliance'
 SAME_AS = ['https://www.linkedin.com/company/wena-india/', 'https://www.instagram.com/wena_india/',
            'https://www.facebook.com/profile.php?id=61562936061893', 'https://in.pinterest.com/reachoutwena/',
@@ -250,6 +258,7 @@ def post_page(p, posts):
     return f'''<!DOCTYPE html>
 <html lang="en-IN">
 <head>
+{GA_TAG}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 {head}
