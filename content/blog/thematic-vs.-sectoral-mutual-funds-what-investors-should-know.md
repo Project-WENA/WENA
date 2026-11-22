@@ -1,7 +1,7 @@
 ---
 title: 'Thematic vs. Sectoral Mutual Funds: What Investors Should Know'
 date: 2026-11-22T07:38:00
-image: ''
+image: /assets/uploads/pasted-image-1795314137985.png
 excerpt: Explore the key differences between thematic and sectoral mutual funds, including scope, concentration risk, cycle sensitivity, and how to align tactical allocations with long-term financial goals while maintaining a strong, diversified core.
 ---
 
