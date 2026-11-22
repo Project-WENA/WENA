@@ -1,0 +1,29 @@
+name: Build blog pages & sitemap
+on:
+  push:
+    branches: [main]
+    paths: ['content/blog/**', 'tools/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: build-blog
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install markdown==3.7
+      - run: python3 tools/build_seo.py
+      - name: Commit generated pages
+        run: |
+          git config user.name "wena-site-bot"
+          git config user.email "reachout@wena.co.in"
+          git add blog blog.html sitemap.xml
+          git diff --cached --quiet || (git commit -m "Rebuild blog pages and sitemap" && git push)
