@@ -1,9 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="pageTitle">Article — WENA</title>
+<!-- SEO:START -->
+<title>Article | WENA Blog</title>
+<meta name="description" content="Financial wellness article from the WENA blog.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#0B2D4A">
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/favicon-48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WENA - Wellness Education Network &amp; Alliance">
+<meta property="og:locale" content="en_IN">
+<meta property="og:title" content="Article | WENA Blog">
+<meta property="og:description" content="Financial wellness article from the WENA blog.">
+<meta property="og:url" content="https://wena.co.in/blog.html">
+<meta property="og:image" content="https://wena.co.in/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Article | WENA Blog">
+<meta name="twitter:description" content="Financial wellness article from the WENA blog.">
+<meta name="twitter:image" content="https://wena.co.in/assets/og-image.jpg">
+<!-- SEO:END -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -113,6 +132,8 @@ function getSlugFromUrl(){
 async function loadArticle(){
   const wrap = document.getElementById('articleWrap');
   const slug = getSlugFromUrl();
+  // Old links: send readers to the indexable static page when it exists
+  if(slug){ try{ const r = await fetch(`blog/${encodeURIComponent(slug)}.html`, {method:'HEAD'}); if(r.ok){ location.replace(`blog/${encodeURIComponent(slug)}.html`); return; } }catch(e){} }
   if(!slug){
     wrap.innerHTML = `<div class="state-msg"><i class="fa-solid fa-triangle-exclamation"></i>No article specified.</div>`;
     return;
@@ -125,7 +146,7 @@ async function loadArticle(){
     const raw = await res.text();
     const { meta, body } = parseFrontmatter(raw);
 
-    document.getElementById('pageTitle').textContent = `${meta.title || 'Article'} — WENA`;
+    document.title = `${meta.title || 'Article'} | WENA`;
 
     wrap.innerHTML = `
       <div class="art-head">
