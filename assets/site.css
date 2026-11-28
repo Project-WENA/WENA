@@ -146,10 +146,16 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .testi .stars{color:var(--saffron);letter-spacing:2px;font-size:15px;}
 .testi blockquote{font-size:16px;line-height:1.7;color:var(--text);}
 .testi blockquote::before{content:'\201C';font-family:'Poppins',sans-serif;font-weight:700;font-size:30px;color:var(--saffron-soft);line-height:0;display:inline-block;vertical-align:-9px;margin-right:2px;}
-.testi figcaption{margin-top:auto;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted);}
+.testi figcaption{margin-top:auto;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted);position:relative;}
 .testi figcaption img{width:44px;height:44px;border-radius:999px;object-fit:cover;}
 .testi figcaption .testi-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:var(--peach);color:var(--amber-text);font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;}
 .testi figcaption strong{color:var(--deep);display:block;}
+.testi-share{margin-left:auto;flex:0 0 auto;width:28px;height:28px;border-radius:999px;border:1px solid var(--line);background:var(--white);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:.7;transition:opacity .2s ease,background .2s ease,color .2s ease;padding:0;position:relative;}
+.testi-share svg{width:14px;height:14px;}
+.testi-share:hover,.testi-share:focus-visible{opacity:1;background:var(--ice);color:var(--deep);}
+.testi-share-toast{position:absolute;bottom:calc(100% + 8px);right:0;background:var(--deep);color:#fff;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap;opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .2s ease,transform .2s ease;}
+.testi-share-toast.show{opacity:1;transform:translateY(0);}
+.testi.testi-highlight{background:var(--peach);transition:background 1.8s ease;}
 
 /* Continue learning */
 .cl-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;}

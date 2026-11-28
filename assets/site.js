@@ -215,6 +215,60 @@ if (!reduceMotion) {
   }
   startAutoplay();
 }
+// Exposed so a direct link to a single testimonial (see below) can permanently halt autoplay.
+window.WENA_stopTestiAutoplay = function () { reduceMotion = true; stopAutoplay(); };
+})();
+
+// Direct-link testimonials — a share button on each card copies its own #testi-<name> URL;
+// visiting that URL scrolls to, highlights, and stops the carousel on that one card.
+(function () {
+var wrap = document.querySelector('.testi-carousel');
+if (!wrap) return;
+var cards = Array.prototype.slice.call(wrap.querySelectorAll('.testi[id]'));
+if (!cards.length) return;
+
+function shareUrl(card) {
+  return location.origin + location.pathname + '#' + card.id;
+}
+function showToast(btn) {
+  var toast = btn.querySelector('.testi-share-toast');
+  if (!toast) return;
+  toast.textContent = 'Link copied';
+  toast.classList.add('show');
+  clearTimeout(toast._hideTimer);
+  toast._hideTimer = setTimeout(function () { toast.classList.remove('show'); }, 1800);
+}
+cards.forEach(function (card) {
+  var btn = card.querySelector('.testi-share');
+  if (!btn) return;
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var url = shareUrl(card);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () { showToast(btn); }, function () { window.prompt('Copy this link to share:', url); });
+    } else {
+      window.prompt('Copy this link to share:', url);
+    }
+  });
+});
+
+function highlightCard(card) {
+  if (window.WENA_stopTestiAutoplay) window.WENA_stopTestiAutoplay();
+  card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'center' });
+  card.classList.add('testi-highlight');
+  setTimeout(function () { card.classList.remove('testi-highlight'); }, 2400);
+}
+function checkHash() {
+  var id = decodeURIComponent(location.hash.replace('#', ''));
+  if (!id) return;
+  var card = document.getElementById(id);
+  if (card && card.classList.contains('testi')) {
+    setTimeout(function () { highlightCard(card); }, 350);
+  }
+}
+checkHash();
+window.addEventListener('hashchange', checkHash);
 })();
 
 // Animated stat counters — count up once when scrolled into view.
