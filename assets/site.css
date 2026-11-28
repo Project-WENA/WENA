@@ -148,6 +148,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .testi blockquote::before{content:'\201C';font-family:'Poppins',sans-serif;font-weight:700;font-size:30px;color:var(--saffron-soft);line-height:0;display:inline-block;vertical-align:-9px;margin-right:2px;}
 .testi figcaption{margin-top:auto;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted);}
 .testi figcaption img{width:44px;height:44px;border-radius:999px;object-fit:cover;}
+.testi figcaption .testi-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:var(--peach);color:var(--amber-text);font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;}
 .testi figcaption strong{color:var(--deep);display:block;}
 
 /* Continue learning */
