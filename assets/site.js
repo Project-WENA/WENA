@@ -155,7 +155,7 @@
     modal.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', close); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
   }
-// Testimonials carousel
+// Testimonials carousel — auto-scrolls, pausing on hover/touch/focus or when off-screen.
 (function () {
 var wrap = document.querySelector('.testi-carousel');
 if (!wrap) return;
@@ -169,16 +169,91 @@ if (!card) return 0;
 var gap = parseFloat(getComputedStyle(track).gap) || 20;
 return card.getBoundingClientRect().width + gap;
 }
+function atEnd() {
+return track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
+}
 function updateArrows() {
 var max = track.scrollWidth - track.clientWidth - 2;
 prev.disabled = track.scrollLeft <= 2;
 next.disabled = track.scrollLeft >= max;
 }
-prev.addEventListener('click', function () { track.scrollBy({ left: -cardStep(), behavior: 'smooth' }); });
-next.addEventListener('click', function () { track.scrollBy({ left: cardStep(), behavior: 'smooth' }); });
+function advance() {
+if (atEnd()) { track.scrollTo({ left: 0, behavior: 'smooth' }); }
+else { track.scrollBy({ left: cardStep(), behavior: 'smooth' }); }
+}
+prev.addEventListener('click', function () { track.scrollBy({ left: -cardStep(), behavior: 'smooth' }); restartAutoplay(); });
+next.addEventListener('click', function () { advance(); restartAutoplay(); });
 track.addEventListener('scroll', updateArrows);
 window.addEventListener('resize', updateArrows);
 updateArrows();
+
+var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var timer = null;
+var inView = false;
+function startAutoplay() {
+  if (reduceMotion || timer) return;
+  timer = setInterval(function () { if (inView && !document.hidden) advance(); }, 4500);
+}
+function stopAutoplay() {
+  if (timer) { clearInterval(timer); timer = null; }
+}
+function restartAutoplay() { stopAutoplay(); startAutoplay(); }
+if (!reduceMotion) {
+  wrap.addEventListener('mouseenter', stopAutoplay);
+  wrap.addEventListener('mouseleave', startAutoplay);
+  wrap.addEventListener('touchstart', stopAutoplay, { passive: true });
+  wrap.addEventListener('focusin', stopAutoplay);
+  wrap.addEventListener('focusout', startAutoplay);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) stopAutoplay(); else startAutoplay(); });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { inView = e.isIntersecting; });
+    }, { threshold: 0.3 });
+    io.observe(wrap);
+  } else {
+    inView = true;
+  }
+  startAutoplay();
+}
+})();
+
+// Animated stat counters — count up once when scrolled into view.
+(function () {
+var nums = document.querySelectorAll('.stats .num[data-count]');
+if (!nums.length) return;
+var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function animate(el) {
+  var target = parseFloat(el.dataset.count) || 0;
+  var suffix = el.dataset.suffix || '';
+  var decimals = (el.dataset.count.split('.')[1] || '').length;
+  if (reduceMotion) { el.textContent = target + suffix; return; }
+  var start = null;
+  var duration = 1400;
+  function step(ts) {
+    if (!start) start = ts;
+    var p = Math.min((ts - start) / duration, 1);
+    var eased = 1 - Math.pow(1 - p, 3);
+    var val = target * eased;
+    el.textContent = (decimals ? val.toFixed(decimals) : Math.round(val)) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = target + suffix;
+  }
+  requestAnimationFrame(step);
+}
+if ('IntersectionObserver' in window) {
+  var seen = new WeakSet();
+  var io2 = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting && !seen.has(e.target)) {
+        seen.add(e.target);
+        animate(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  nums.forEach(function (n) { io2.observe(n); });
+} else {
+  nums.forEach(animate);
+}
 })();
 
 })();
